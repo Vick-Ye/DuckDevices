@@ -17,9 +17,9 @@ import cern.jet.math.tdouble.Bessel;
 public class Utils {
 
     /**
-     * The percision of the bessel function
+     * The precision of the bessel function
      */
-    private static double besselPercision = 10;
+    private static double besselPrecision = 10;
 
     /**
      * General Fast (Discrete) Fourier Transform
@@ -505,7 +505,7 @@ public class Utils {
 
         // backward recurrence
         // increase starting i for more precision
-        for(int i = (int)(x+Math.sqrt(x)*besselPercision)*2; i > 0; i--) {
+        for(int i = (int)(x+Math.sqrt(x)*besselPrecision)*2; i > 0; i--) {
             double bi_minus = bi_plus + scalar*i*bi_n;
             bi_plus = bi_n;
             bi_n = bi_minus;
@@ -524,7 +524,7 @@ public class Utils {
         return out * Bessel.i0(x)/bi_n;
     }
 
-    public void setBesselPercision(double percision) {
-        besselPercision = percision;
+    public void setBesselPrecision(double precision) {
+        besselPrecision = precision;
     }
 }
