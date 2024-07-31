@@ -1,34 +1,53 @@
 package com.quackology.duckfilter.spaces;
 
-import cern.colt.matrix.tdouble.DoubleFactory2D;
-import cern.colt.matrix.tdouble.DoubleMatrix2D;
-import cern.colt.matrix.tdouble.algo.DenseDoubleAlgebra;
-import cern.colt.matrix.tdouble.algo.decomposition.DenseDoubleQRDecomposition;
+import org.ojalgo.matrix.MatrixR064;
+import org.ojalgo.matrix.decomposition.Cholesky;
+import org.ojalgo.matrix.decomposition.QR;
+import org.ojalgo.matrix.store.MatrixStore;
+import org.ojalgo.matrix.store.PhysicalStore;
+import org.ojalgo.matrix.store.R064Store;
+import org.ojalgo.matrix.store.RawStore;
+
+import javax.annotation.Nonnull;
 
 /**
  * Wrapper class for 2D matrix of real numbers
  * <p>
- * Based on the parallel colt library
+ * Based on OjAlgo's PrimitiveMatrix interface (MatrixR064)
  */
 public class MatReal implements Mat<MatReal> {
 
+	/**
+	 * OjAlgo's factory for creating matrices
+	 */
+	private static final MatrixR064.Factory MATRIX_FACTORY = MatrixR064.FACTORY;
+    private static final PhysicalStore.Factory<Double, R064Store> STORE_FACTORY = R064Store.FACTORY;
+
     /**
-     * Algebra object for matrix operations
+     * OjAlgo's solver instances
      */
-    private static final DenseDoubleAlgebra ALGEBRA = new DenseDoubleAlgebra(1e-12);
+    private static final Cholesky<Double> CHOLESKY_SOLVER = Cholesky.R064.make();
+    private static final QR<Double> QR_SOLVER = QR.R064.make();
 
     /**
      * Values of the matrix
      */
-    private DoubleMatrix2D value;
+	private final MatrixR064 value;
 
     /**
-     * Constructor of a matrix based on the parallel colt library matrix
+     * Constructor of a matrix based on the OjAlgo MatrixR064
      * 
-     * @param matrix DoubleMatrix2D from the parallel colt library containing the values of the matrix
+     * @param matrix MatrixR064 from OjAlgo containing the values of the matrix
      */
-    public MatReal(DoubleMatrix2D matrix) {
+    public MatReal(MatrixR064 matrix) {
         this.value = matrix;
+    }
+
+    /**
+     * Constructor of a matrix based on the OjAlgo MatrixStore
+     */
+    public MatReal(MatrixStore<Double> matrix) {
+        this.value = MATRIX_FACTORY.copy(matrix);
     }
 
     /**
@@ -37,7 +56,7 @@ public class MatReal implements Mat<MatReal> {
      * @param value Value of only element in the matrix
      */
     public MatReal(double value) {
-        this.value = DoubleFactory2D.dense.make(new double[][] {{value}});
+		this(new double[][] {{value}});
     }
 
     /**
@@ -45,8 +64,8 @@ public class MatReal implements Mat<MatReal> {
      * 
      * @param matrix 2D array of doubles containing the values of the matrix
      */
-    public MatReal(double matrix[][]) {
-        this.value = DoubleFactory2D.dense.make(matrix);
+    public MatReal(double[][] matrix) {
+		this.value = MATRIX_FACTORY.copy(RawStore.wrap(matrix));
     }
 
     /**
@@ -55,7 +74,7 @@ public class MatReal implements Mat<MatReal> {
      * @return a 2D array of doubles representing the matrix values
      */
     public double[][] get() {
-        return this.value.toArray();
+        return this.value.toRawCopy2D();
     }
 
     /**
@@ -71,46 +90,41 @@ public class MatReal implements Mat<MatReal> {
     
     @Override
     public int getRows() {
-        return this.value.rows();
+		return this.value.getRowDim();
     }
 
     @Override
     public int getCols() {
-        return this.value.columns();
+		return this.value.getColDim();
     }
 
     @Override
     public MatReal getRow(int row) {
-        return new MatReal(this.value.viewPart(row, 0, 1, this.getCols()));
+		return new MatReal(this.value.row(row));
     }
 
     @Override
     public MatReal getCol(int column) {
-        return new MatReal(this.value.viewPart(0, column, this.getRows(), 1));
+		return new MatReal(this.value.column(column));
     }
 
     @Override
     public MatReal toVector() {
-        return new MatReal(new double[][] {this.value.vectorize().toArray()}).transpose();
+		MatReal vectors[] = new MatReal[this.getCols()];
+		for(int i = 0; i < this.getCols(); i++) {
+			vectors[i] = this.getCol(i);
+		}
+		return MatReal.vertical(vectors);
     }
 
     @Override
     public MatReal transpose() {
-        return new MatReal(this.value.viewDice());
-    }
-
-    @Override
-    public MatReal minor(int row, int column) {
-        this.value.get(row, column);
-        return new MatReal(DoubleFactory2D.dense.compose(new DoubleMatrix2D[][] {
-            {this.value.viewPart(0, 0, row, column), this.value.viewPart(0, column+1, row, this.getCols()-column-1)},
-            {this.value.viewPart(row+1, 0, this.getRows()-row-1, column), this.value.viewPart(row+1, column+1, this.getRows()-row-1, getCols()-column-1)}
-        }));
+		return new MatReal(this.value.transpose());
     }
 
     @Override
     public MatReal subMat(int row, int column, int height, int width) {
-        return new MatReal(this.value.viewPart(row, column, height, width));
+		return new MatReal(this.value.offsets(row, column).limits(height, width));
     }
 
     /**
@@ -122,59 +136,29 @@ public class MatReal implements Mat<MatReal> {
      * @return a new matrix with the value at the given row and column set to the given value
      */
     public MatReal set(int row, int column, double value) {
-        double[][] out = this.value.toArray();
+        double[][] out = this.value.toRawCopy2D();
         out[row][column] = value;
         return new MatReal(out);
     }
 
     @Override
     public MatReal add(MatReal matrix) {
-        if (getRows() != matrix.getRows() || this.getCols() != matrix.getCols()) {
-            throw new IllegalArgumentException("Matrices must be the same size");
-        }
-        
-        double[][] out = this.value.toArray();
-
-        for (int i = 0; i < this.getRows(); i++) {
-            for (int j = 0; j < this.getCols(); j++) {
-                out[i][j] += matrix.value.get(i, j);
-            }
-        }
-        return new MatReal(out);
+		return new MatReal(this.value.add(matrix.value));
     }
 
     @Override
     public MatReal subtract(MatReal matrix) {
-        if (getRows() != matrix.getRows() || this.getCols() != matrix.getCols()) {
-            throw new IllegalArgumentException("Matrices must be the same size");
-        }
-        
-        double[][] out = this.value.toArray();
-
-        for (int i = 0; i < this.getRows(); i++) {
-            for (int j = 0; j < this.getCols(); j++) {
-                out[i][j] -= matrix.value.get(i, j);
-            }
-        }
-        return new MatReal(out);
+		return new MatReal(this.value.subtract(matrix.value));
     }
 
     @Override
     public MatReal multiply(MatReal matrix) {
-        return new MatReal(this.value.zMult(matrix.value, null));
+		return new MatReal(this.value.multiply(matrix.value));
     }
 
     @Override
     public MatReal multiply(double scalar) {
-        double[][] out = this.value.toArray();
-
-        for(int i = 0; i < this.getRows(); i++) {
-            for(int j = 0; j < this.getCols(); j++) {
-                out[i][j] *= scalar;
-            }
-        }
-
-        return new MatReal(out);
+		return new MatReal(this.value.multiply(scalar));
     }
 
     /**
@@ -183,7 +167,7 @@ public class MatReal implements Mat<MatReal> {
      * @return the determinant of the matrix
      */
     public double determinant() {
-        return ALGEBRA.det(this.value);
+		return this.value.getDeterminant();
     }
 
     /**
@@ -192,7 +176,7 @@ public class MatReal implements Mat<MatReal> {
      * @return the inverse of the matrix
      */
     public MatReal inverse() {
-        return new MatReal(ALGEBRA.inverse(this.value));
+		return new MatReal(this.value.invert());
     }
 
     /**
@@ -201,7 +185,18 @@ public class MatReal implements Mat<MatReal> {
      * @return the lower triangular matrix of the Cholesky decomposition
      */
     public MatReal choleskyDecompose() {
-        return new MatReal(ALGEBRA.chol(this.value).getL());
+        CHOLESKY_SOLVER.decompose(this.value);
+        return new MatReal(CHOLESKY_SOLVER.getL());
+    }
+
+    /**
+     * Calculates the lower triangular matrix of the Cholesky decomposition
+     * 
+     * @return the lower triangular matrix of the Cholesky decomposition
+     */
+    public MatReal choleskyDecompose(Cholesky<Double> solver) {
+        solver.decompose(this.value);
+        return new MatReal(solver.getL());
     }
 
     /**
@@ -210,8 +205,8 @@ public class MatReal implements Mat<MatReal> {
      * @return an array containing the Q and R matrices respectively from the QR decomposition of the matrix
      */
     public MatReal[] QRDecomposition() {
-        DenseDoubleQRDecomposition out = ALGEBRA.qr(this.value);
-        return new MatReal[] {new MatReal(out.getQ(true)), new MatReal(out.getR(true))};
+        QR_SOLVER.decompose(this.value);
+        return new MatReal[] {new MatReal(QR_SOLVER.getQ()), new MatReal(QR_SOLVER.getR())};
     }
 
     /**
@@ -220,7 +215,7 @@ public class MatReal implements Mat<MatReal> {
      * @return the trace of the matrix
      */
     public double trace() {
-        return ALGEBRA.trace(this.value);
+        return this.value.getTrace();
     }
 
     public String toString() {
@@ -234,7 +229,7 @@ public class MatReal implements Mat<MatReal> {
      * @return the identity matrix of the given size
      */
     public static MatReal identity(int size) {
-        return new MatReal(DoubleFactory2D.dense.identity(size));
+        return new MatReal(MATRIX_FACTORY.makeEye(size, size));
     }
 
     /**
@@ -245,7 +240,7 @@ public class MatReal implements Mat<MatReal> {
      * @return a matrix of the given size with all elements set to 0
      */
     public static MatReal empty(int rows, int columns) {
-        return new MatReal(new double[rows][columns]);
+        return new MatReal(MATRIX_FACTORY.make(rows, columns));
     }
 
     /**
@@ -256,10 +251,10 @@ public class MatReal implements Mat<MatReal> {
      * @param matrices array of the matrices to be combined
      * @return a matrix formed by placing the given matrices along the diagonal
      */
-    public static MatReal diagonal(MatReal[] matrices) {
-        DoubleMatrix2D out = matrices[0].value;
+    public static MatReal diagonal(@Nonnull MatReal... matrices) {
+        R064Store out = STORE_FACTORY.copy(matrices[0].value);
         for(int i = 1; i < matrices.length; i++) {
-            out = DoubleFactory2D.dense.composeDiagonal(out, matrices[i].value);
+            out = STORE_FACTORY.copy(out.diagonally(matrices[i].value));
         }
         return new MatReal(out);
     }
@@ -272,10 +267,10 @@ public class MatReal implements Mat<MatReal> {
      * @param matrices array of the matrices to be combined
      * @return a matrix formed by placing the given matrices horizontally
      */
-    public static MatReal horizontal(MatReal[] matrices) {
-        DoubleMatrix2D out = matrices[0].value;
+    public static MatReal horizontal(@Nonnull MatReal... matrices) {
+        R064Store out = STORE_FACTORY.copy(matrices[0].value);
         for(int i = 1; i < matrices.length; i++) {
-            out = DoubleFactory2D.dense.appendColumns(out, matrices[i].value);
+            out = STORE_FACTORY.copy(out.right(matrices[i].value));
         }
         return new MatReal(out);
     }
@@ -288,10 +283,10 @@ public class MatReal implements Mat<MatReal> {
      * @param matrices array of the matrices to be combined
      * @return a matrix formed by placing the given matrices vertically
      */
-    public static MatReal vertical(MatReal[] matrices) {
-        DoubleMatrix2D out = matrices[0].value;
+    public static MatReal vertical(@Nonnull MatReal... matrices) {
+        R064Store out = STORE_FACTORY.copy(matrices[0].value);
         for(int i = 1; i < matrices.length; i++) {
-            out = DoubleFactory2D.dense.appendRows(out, matrices[i].value);
+            out = STORE_FACTORY.copy(out.below(matrices[i].value));
         }
         return new MatReal(out);
     }
@@ -309,14 +304,9 @@ public class MatReal implements Mat<MatReal> {
             throw new IllegalArgumentException("Matrix must be square");
         }
         
-        double out[][] = new double[L.getRows()][L.getCols()];
-        double[][] currentL = L.value.toArray();
-        double[][] currentW = new double[W.getRows()][W.getCols()];
-        for (int i = 0; i < W.getRows(); i++) {
-            for (int j = 0; j < W.getCols(); j++) {
-                currentW[i][j] = W.value.toArray()[i][j];
-            }
-        }
+        double[][] out = new double[L.getRows()][L.getCols()];
+        double[][] currentL = L.value.toRawCopy2D();
+        double[][] currentW = W.value.toRawCopy2D();
 
         for (int i = 0; i < W.getCols(); i++) {
 
@@ -355,12 +345,12 @@ public class MatReal implements Mat<MatReal> {
 
         for (int k = 0; k < b.getCols(); k++) {
             for (int i = 0; i < A.getRows(); i++) {
-                double sum = b.value.toArray()[i][k];
+                double sum = b.get(i, k);
                 for (int j = 0; j < i; j++) {
-                    sum -= A.value.toArray()[i][j] * out[j][k];
+                    sum -= A.value.get(i, j) * out[j][k];
                 }
 
-                out[i][k] = sum / A.value.toArray()[i][i];
+                out[i][k] = sum / A.get(i, i);
             }
         }
 
@@ -381,12 +371,12 @@ public class MatReal implements Mat<MatReal> {
 
         for (int k = 0; k < b.getCols(); k++) {
             for (int i = A.getRows()-1; i >= 0; i--) {
-                double sum = b.value.toArray()[i][k];
+                double sum = b.value.get(i, k);
                 for (int j = A.getRows()-1; j >= i+1; j--) {
-                    sum -= A.value.toArray()[i][j] * out[j][k];
+                    sum -= A.value.get(i, j) * out[j][k];
                 }
 
-                out[i][k] = sum / A.value.toArray()[i][i];
+                out[i][k] = sum / A.value.get(i, i);
             }
         }
 

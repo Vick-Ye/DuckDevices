@@ -43,19 +43,19 @@ public class SE3 extends MatLieGroup<SE3, MatReal> {
      * @return a new Manifold with the same structure but the given value
      */
     public SE3 make(SO3 rot, MatReal pos) {
-        return SE3.FACTORY.make(MatReal.vertical(new MatReal[] {MatReal.horizontal(new MatReal[] {rot.getValue(), pos}), new MatReal(new double[][] {{0, 0, 0, 1}})}));
+        return SE3.FACTORY.make(MatReal.vertical(MatReal.horizontal(rot.getValue(), pos), new MatReal(new double[][] {{0, 0, 0, 1}})));
     }
 
     @Override
     public MatReal vee(MatReal lieAlgebra) {
         MatReal pos = lieAlgebra.subMat(0, 3, 3, 1);
         MatReal rot = SO3.FACTORY.vee(lieAlgebra.subMat(0, 0, 3, 1));
-        return MatReal.vertical(new MatReal[] {pos, rot});
+        return MatReal.vertical(pos, rot);
     }
 
     @Override
     public MatReal wedge(MatReal element) {
-        return MatReal.vertical(new MatReal[] {MatReal.horizontal(new MatReal[] {SO3.FACTORY.wedge(element.subMat(3, 0, 3, 1)), element.subMat(0, 0, 3, 1)}), new MatReal(new double[][] {{0, 0, 0, 0}})});
+        return MatReal.vertical(MatReal.horizontal(SO3.FACTORY.wedge(element.subMat(3, 0, 3, 1)), element.subMat(0, 0, 3, 1)), new MatReal(new double[][] {{0, 0, 0, 0}}));
     }
 
     @Override
@@ -75,7 +75,7 @@ public class SE3 extends MatLieGroup<SE3, MatReal> {
             V = MatReal.identity(3).add(SO3.FACTORY.wedge(rot).multiply((1-Math.cos(theta))/(theta*theta))).add(SO3.FACTORY.wedge(rot).multiply(SO3.FACTORY.wedge(rot)).multiply((theta-Math.sin(theta))/(theta*theta*theta)));
         }
 
-        return new SE3(MatReal.vertical(new MatReal[] {MatReal.horizontal(new MatReal[] {SO3.FACTORY.exp(rot).getValue(), V.multiply(pos)}), new MatReal(new double[][] {{0, 0, 0, 1}})}));
+        return new SE3(MatReal.vertical(MatReal.horizontal(SO3.FACTORY.exp(rot).getValue(), V.multiply(pos)), new MatReal(new double[][] {{0, 0, 0, 1}})));
     }
 
     /**
@@ -89,7 +89,7 @@ public class SE3 extends MatLieGroup<SE3, MatReal> {
     public SE3 pseudo_exp(MatReal element) {
         MatReal pos = element.subMat(0, 0, 3, 1);
         MatReal rot = element.subMat(3, 0, 3, 1);
-        return new SE3(MatReal.vertical(new MatReal[] {MatReal.horizontal(new MatReal[] {SO3.FACTORY.exp(rot).getValue(), pos}), new MatReal(new double[][] {{0, 0, 0, 1}})}));
+        return new SE3(MatReal.vertical(MatReal.horizontal(SO3.FACTORY.exp(rot).getValue(), pos), new MatReal(new double[][] {{0, 0, 0, 1}})));
     }
 
     @Override
@@ -109,7 +109,7 @@ public class SE3 extends MatLieGroup<SE3, MatReal> {
             V = MatReal.identity(3).add(SO3.FACTORY.wedge(rot).multiply((1-Math.cos(theta))/(theta*theta))).add(SO3.FACTORY.wedge(rot).multiply(SO3.FACTORY.wedge(rot)).multiply((theta-Math.sin(theta))/(theta*theta*theta)));
         }
 
-        return MatReal.vertical(new MatReal[] {V.inverse().multiply(pos), rot});
+        return MatReal.vertical(V.inverse().multiply(pos), rot);
     }
 
     /**
@@ -125,7 +125,7 @@ public class SE3 extends MatLieGroup<SE3, MatReal> {
     public SE3 pseudo_log(SE3 lieGroup) {
         MatReal pos = lieGroup.value.subMat(0, 3, 3, 1);
         MatReal rot = SO3.FACTORY.log(SO3.FACTORY.make(lieGroup.value.subMat(0, 0, 3, 3)));
-        return new SE3(MatReal.vertical(new MatReal[] {pos, rot}));
+        return new SE3(MatReal.vertical(pos, rot));
     }
 
     @Override
@@ -137,14 +137,14 @@ public class SE3 extends MatLieGroup<SE3, MatReal> {
     public SE3 inverse() {
         MatReal rot_inv = SO3.FACTORY.make(this.value.subMat(0, 0, 3, 3)).inverse().getValue();
         MatReal pos = this.value.subMat(0, 3, 3, 1);
-        return new SE3(MatReal.vertical(new MatReal[] {MatReal.horizontal(new MatReal[] {rot_inv, rot_inv.multiply(pos).multiply(-1)}), new MatReal(new double[][] {{0, 0, 0, 1}})}));
+        return new SE3(MatReal.vertical(MatReal.horizontal(rot_inv, rot_inv.multiply(pos).multiply(-1)), new MatReal(new double[][] {{0, 0, 0, 1}})));
     }
 
     @Override
     public MatReal adjoint() {
         MatReal rot = this.value.subMat(0, 0, 3, 3);
         MatReal pos = SO3.FACTORY.wedge(this.value.subMat(3, 0, 3, 1)).multiply(rot);
-        return MatReal.vertical(new MatReal[] {MatReal.horizontal(new MatReal[] {rot, pos}), MatReal.horizontal(new MatReal[] {MatReal.empty(3, 3), rot})});
+        return MatReal.vertical(MatReal.horizontal(rot, pos), MatReal.horizontal(MatReal.empty(3, 3), rot));
     }
 
     @Override

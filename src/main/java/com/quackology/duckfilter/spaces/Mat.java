@@ -52,15 +52,6 @@ public interface Mat<T extends Mat<T>> extends Linear {
     public T transpose();
 
     /**
-     * Gets the minor of the matrix
-     * 
-     * @param row row to be removed
-     * @param column column to be removed
-     * @return the minor of the matrix based on the given row and column
-     */
-    public T minor(int row, int column);
-    
-    /**
      * Gets a submatrix of the matrix
      * 
      * @param row row to start the submatrix

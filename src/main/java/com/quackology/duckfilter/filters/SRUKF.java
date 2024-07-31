@@ -120,9 +120,9 @@ public class SRUKF {
         //build compound MatRealrix for covariance update
         MatReal c = Y[1].subtract(this.x).multiply(Math.sqrt(weightC[1]));
         for (int i = 2; i < Y.length; i++) {
-            c = MatReal.horizontal(new MatReal[] {c, Y[i].subtract(this.x).multiply(Math.sqrt(weightC[i]))});
+            c = MatReal.horizontal(c, Y[i].subtract(this.x).multiply(Math.sqrt(weightC[i])));
         }
-        c = MatReal.horizontal(new MatReal[] {c, this.q}).transpose();
+        c = MatReal.horizontal(c, this.q).transpose();
 
         //qr
         MatReal s = c.QRDecomposition()[1].transpose();
@@ -144,10 +144,10 @@ public class SRUKF {
      */
     public void predict_aug(double dt) {
         //augment state
-        MatReal x_aug = MatReal.vertical(new MatReal[] {this.x, MatReal.empty(this.q.getRows(), 1)});
+        MatReal x_aug = MatReal.vertical(this.x, MatReal.empty(this.q.getRows(), 1));
 
         //augment covariance
-        MatReal p_aug = MatReal.diagonal(new MatReal[] {this.p, this.q});
+        MatReal p_aug = MatReal.diagonal(this.p, this.q);
         
         MatReal[] X = new MatReal[x_aug.getRows()*2+1];
         double[] weightM = new double[x_aug.getRows()*2+1];
@@ -167,7 +167,7 @@ public class SRUKF {
         //build compound MatRealrix for covariance update
         MatReal c = Y[1].subtract(this.x).multiply(Math.sqrt(weightC[1]));
         for (int i = 2; i < Y.length; i++) {
-            c = MatReal.horizontal(new MatReal[] {c, Y[i].subtract(this.x).multiply(Math.sqrt(weightC[i]))});
+            c = MatReal.horizontal(c, Y[i].subtract(this.x).multiply(Math.sqrt(weightC[i])));
         }
         c = c.transpose(); //no need to include q as it is already incorported by the state augmentation
 
@@ -208,9 +208,9 @@ public class SRUKF {
         //build compound MatRealrix for innovation covariance
         MatReal c = Y[1].subtract(y).multiply(Math.sqrt(weightC[1]));
         for (int i = 2; i < Y.length; i++) {
-            c = MatReal.horizontal(new MatReal[] {c, Y[i].subtract(y).multiply(Math.sqrt(weightC[i]))});
+            c = MatReal.horizontal(c, Y[i].subtract(y).multiply(Math.sqrt(weightC[i])));
         }
-        c = MatReal.horizontal(new MatReal[] {c, r}).transpose();
+        c = MatReal.horizontal(c, r).transpose();
 
         //qr
         MatReal s = c.QRDecomposition()[1].transpose();

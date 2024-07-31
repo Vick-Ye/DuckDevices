@@ -234,10 +234,10 @@ public class UKF {
      */
     private void predict_aug_merwe(double dt) {
         //augment state
-        MatReal x_aug = MatReal.vertical(new MatReal[] {this.x, MatReal.empty(this.q.getRows(), 1)});
+        MatReal x_aug = MatReal.vertical(this.x, MatReal.empty(this.q.getRows(), 1));
 
         //augment covariance
-        MatReal p_aug = MatReal.diagonal(new MatReal[] {this.p, this.q});
+        MatReal p_aug = MatReal.diagonal(this.p, this.q);
 
         MatReal[] X = new MatReal[x_aug.getRows()*2+1];
         double[] weightM = new double[x_aug.getRows()*2+1];
@@ -378,10 +378,10 @@ public class UKF {
      */
     private void predict_aug_julier(double dt) {
         //augment state
-        MatReal x_aug = MatReal.vertical(new MatReal[] {this.x, MatReal.empty(this.q.getRows(), 1)});
+        MatReal x_aug = MatReal.vertical(this.x, MatReal.empty(this.q.getRows(), 1));
 
         //augment covariance
-        MatReal p_aug = MatReal.diagonal(new MatReal[] {this.p, this.q});
+        MatReal p_aug = MatReal.diagonal(this.p, this.q);
 
         MatReal[] X = new MatReal[x_aug.getRows()*2+1];
         double[] weight = new double[x_aug.getRows()*2+1];

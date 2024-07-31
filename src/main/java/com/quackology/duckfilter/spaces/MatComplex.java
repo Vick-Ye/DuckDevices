@@ -133,21 +133,12 @@ public class MatComplex implements Mat<MatComplex> {
 
     @Override
     public MatReal toVector() {
-        return MatReal.vertical(new MatReal[] {new MatReal(this.value.getRealPart()).toVector(), new MatReal(this.value.getImaginaryPart()).toVector()});
+        return MatReal.vertical(new MatReal[] {new MatReal(this.value.getRealPart().toArray()).toVector(), new MatReal(this.value.getImaginaryPart().toArray()).toVector()});
     }
 
     @Override
     public MatComplex transpose() {
         return new MatComplex(this.value.viewDice());
-    }
-
-    @Override
-    public MatComplex minor(int row, int column) {
-        this.value.get(row, column);
-        return new MatComplex(DComplexFactory2D.dense.compose(new DComplexMatrix2D[][] {
-            {this.value.viewPart(0, 0, row, column), this.value.viewPart(0, column+1, row, this.getCols()-column-1)},
-            {this.value.viewPart(row+1, 0, this.getRows()-row-1, column), this.value.viewPart(row+1, column+1, this.getRows()-row-1, getCols()-column-1)}
-        }));
     }
 
     @Override

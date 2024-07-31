@@ -308,7 +308,7 @@ public class UKFM {
      */
     private void update_merwe(TriFunction<CompoundManifold, MatReal, MatReal, MatReal> h, MatReal z, MatReal r) {
         //augment covariance
-        MatReal p_aug = MatReal.diagonal(new MatReal[] {this.p, r});
+        MatReal p_aug = MatReal.diagonal(this.p, r);
         
         //generate state covariance noise
         double[] weight = new double[p_aug.getRows()*2+1];
@@ -364,7 +364,7 @@ public class UKFM {
         double l = this.a*this.a*(n+this.k)-n;
 
         MatReal W = p.choleskyDecompose().multiply(Math.sqrt(n+l));
-        W = MatReal.horizontal(new MatReal[] {W, W.multiply(-1)});
+        W = MatReal.horizontal(W, W.multiply(-1));
 
         weight[0] = l/(l+n) + 1-this.a*this.a+this.b;
         for (int i = 1; i < n*2+1; i++) {
@@ -487,7 +487,7 @@ public class UKFM {
      */
     private void update_julier(TriFunction<CompoundManifold, MatReal, MatReal, MatReal> h, MatReal z, MatReal r) {
         //augment covariance
-        MatReal p_aug = MatReal.diagonal(new MatReal[] {this.p, r});
+        MatReal p_aug = MatReal.diagonal(this.p, r);
         
         //generate state covariance noise
         double[] weight = new double[p_aug.getRows()*2+1];
@@ -541,7 +541,7 @@ public class UKFM {
         int n = weight.length/2;
 
         MatReal W = p.choleskyDecompose().multiply(Math.sqrt(n+this.l));
-        W = MatReal.horizontal(new MatReal[] {W, W.multiply(-1)});
+        W = MatReal.horizontal(W, W.multiply(-1));
 
         weight[0] = this.l / (this.l+n);
         for (int i = 1; i < n*2+1; i++) {

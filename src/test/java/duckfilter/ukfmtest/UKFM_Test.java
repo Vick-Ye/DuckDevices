@@ -31,7 +31,7 @@ public class UKFM_Test {
         double rotVelNoise = Math.toRadians(1);
         double measureXNoise = 25;
         double measureYNoise = 25;
-        double measureRotNoise = Math.toRadians(10);
+        double measureRotNoise = Math.toRadians(50);
         
         // Filter initial conditions
         double x = -1;
@@ -40,29 +40,29 @@ public class UKFM_Test {
         double xVel = 20;
         double yVel = 50;
         double rotVel = Math.toRadians(6);
-        MatReal P = MatReal.diagonal(new MatReal[] {
+        MatReal P = MatReal.diagonal(
             new MatReal(5),
             new MatReal(5),
             new MatReal(Math.toRadians(5)),
             new MatReal(15),
             new MatReal(15),
             new MatReal(Math.toRadians(5))
-        });
+        );
         P = P.multiply(P);
-        MatReal Q = MatReal.diagonal(new MatReal[] {
+        MatReal Q = MatReal.diagonal(
             new MatReal(xNoise),
             new MatReal(yNoise),
             new MatReal(rotNoise),
             new MatReal(xVelNoise),
             new MatReal(yVelNoise),
             new MatReal(rotVelNoise)
-        });
+        );
         Q = Q.multiply(Q);
-        MatReal R = MatReal.diagonal(new MatReal[] {
+        MatReal R = MatReal.diagonal(
             new MatReal(measureXNoise),
             new MatReal(measureYNoise),
             new MatReal(measureRotNoise)
-        });
+        );
         R = R.multiply(R);
 
         // Simulation
@@ -104,7 +104,7 @@ public class UKFM_Test {
         );
 
         ukf.setF((x_, u_, dt_) -> {
-            SE2 pos_ = SE2.FACTORY.exp(new MatReal(new double[][] {
+            SE2 pos_ = SE2.FACTORY.pseudo_exp(new MatReal(new double[][] {
                 {x_.get(0, 0)},
                 {x_.get(1, 0)},
                 {x_.get(2, 0)}
@@ -114,10 +114,10 @@ public class UKFM_Test {
                 {x_.get(4, 0)},
                 {x_.get(5, 0)}
             });
-            return MatReal.vertical(new MatReal[] {
+            return MatReal.vertical(
                 SE2.FACTORY.pseudo_log(pos_.phi(vel_.multiply(dt_))),
                 vel_
-            });
+            );
         });
 
         // UKFM
@@ -143,8 +143,8 @@ public class UKFM_Test {
             SE2 pos_ = (SE2) x_.getManifold(0);
             ManifoldImpl<MatReal> vel_ = (ManifoldImpl<MatReal>) x_.getManifold(1);
 
-            MatReal posNoise_ = MatReal.vertical(new MatReal[] {w.getRow(0), w.getRow(1), w.getRow(2)});
-            MatReal velNoise_ = MatReal.vertical(new MatReal[] {w.getRow(3), w.getRow(4), w.getRow(5)});
+            MatReal posNoise_ = MatReal.vertical(w.getRow(0), w.getRow(1), w.getRow(2));
+            MatReal velNoise_ = MatReal.vertical(w.getRow(3), w.getRow(4), w.getRow(5));
 
             pos_ = pos_.compose(SE2.FACTORY.pseudo_exp(posNoise_));
             vel_ = vel_.phi(velNoise_);
@@ -180,8 +180,8 @@ public class UKFM_Test {
             SE2 pos_ = (SE2) x_.getManifold(0);
             ManifoldImpl<MatReal> vel_ = (ManifoldImpl<MatReal>) x_.getManifold(1);
 
-            MatReal posNoise_ = MatReal.vertical(new MatReal[] {w.getRow(0), w.getRow(1), w.getRow(2)});
-            MatReal velNoise_ = MatReal.vertical(new MatReal[] {w.getRow(3), w.getRow(4), w.getRow(5)});
+            MatReal posNoise_ = MatReal.vertical(w.getRow(0), w.getRow(1), w.getRow(2));
+            MatReal velNoise_ = MatReal.vertical(w.getRow(3), w.getRow(4), w.getRow(5));
 
             pos_ = pos_.compose(SE2.FACTORY.pseudo_exp(posNoise_));
             vel_ = vel_.phi(velNoise_);
@@ -217,7 +217,7 @@ public class UKFM_Test {
         ArrayList<Double> srukfmSDY = new ArrayList<>();
         ArrayList<Double> srukfmSDRot = new ArrayList<>();
         
-
+        long t0 = System.nanoTime();
         for(int i = 0; i < 100; i++) {
             time.add(i*dt+dt);
             robot.move(dt);
@@ -263,6 +263,7 @@ public class UKFM_Test {
             trueY.add(robot.getState().get(1, 0));
             trueRot.add(robot.getState().get(2, 0));
         }
+        System.out.println((System.nanoTime()-t0)*1e-9);
 
         XYChart chart = QuickChart.getChart("Path", "X", "Y", "True Path", trueX, trueY);
         chart.addSeries("UKF", ukfX, ukfY);

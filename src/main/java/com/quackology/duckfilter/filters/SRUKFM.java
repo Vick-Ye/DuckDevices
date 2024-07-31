@@ -226,7 +226,7 @@ public class SRUKFM {
         //build compound MatRealrix for covariance update
         MatReal c = X[0].phi_inverse_vector(x).multiply(Math.sqrt(weight[1]));
         for (int i = 1; i < X.length; i++) {
-            c = MatReal.horizontal(new MatReal[] {c, X[i].phi_inverse_vector(x).multiply(Math.sqrt(weight[i+1]))});
+            c = MatReal.horizontal(c, X[i].phi_inverse_vector(x).multiply(Math.sqrt(weight[i+1])));
         }
         c = c.transpose();
 
@@ -246,7 +246,7 @@ public class SRUKFM {
         //build compound MatRealrix for covariance update
         c = Y[0].phi_inverse_vector(x).multiply(Math.sqrt(weight[1]));
         for (int i = 1; i < Y.length; i++) {
-            c = MatReal.horizontal(new MatReal[] {c, Y[i].phi_inverse_vector(x).multiply(Math.sqrt(weight[i+1]))});
+            c = MatReal.horizontal(c, Y[i].phi_inverse_vector(x).multiply(Math.sqrt(weight[i+1])));
         }
         c = c.transpose();
 
@@ -254,7 +254,7 @@ public class SRUKFM {
         MatReal p_ = c.QRDecomposition()[1].transpose();
 
         //p = sqrt(p*p.t + p_*p_.t)
-        this.p = MatReal.horizontal(new MatReal[] {p, p_}).transpose().QRDecomposition()[1].transpose();
+        this.p = MatReal.horizontal(p, p_).transpose().QRDecomposition()[1].transpose();
         this.x = x;
     }
 
@@ -287,9 +287,9 @@ public class SRUKFM {
         //innovation covariance
         MatReal c = Y[1].subtract(y).multiply(Math.sqrt(weight[1]));
         for (int i = 2; i < Y.length; i++) {
-            c = MatReal.horizontal(new MatReal[] {c, Y[i].subtract(y).multiply(Math.sqrt(weight[i]))});
+            c = MatReal.horizontal(c, Y[i].subtract(y).multiply(Math.sqrt(weight[i])));
         }
-        c = MatReal.horizontal(new MatReal[] {c, r}).transpose();
+        c = MatReal.horizontal(c, r).transpose();
 
         //qr
         MatReal s = c.QRDecomposition()[1].transpose();
@@ -321,7 +321,7 @@ public class SRUKFM {
      */
     private void update_merwe(TriFunction<CompoundManifold, MatReal, MatReal, MatReal> h, MatReal z, MatReal r) {
         //augment covariance
-        MatReal p_aug = MatReal.diagonal(new MatReal[] {this.p, r});
+        MatReal p_aug = MatReal.diagonal(this.p, r);
         
         //generate state covariance noise
         double[] weight = new double[p_aug.getRows()*2+1];
@@ -346,7 +346,7 @@ public class SRUKFM {
         //innovation covariance
         MatReal c = Y[1].subtract(y).multiply(Math.sqrt(weight[1]));
         for (int i = 2; i < Y.length; i++) {
-            c = MatReal.horizontal(new MatReal[] {c, Y[i].subtract(y).multiply(Math.sqrt(weight[i]))});
+            c = MatReal.horizontal(c, Y[i].subtract(y).multiply(Math.sqrt(weight[i])));
         }
         c = c.transpose();
 
@@ -384,7 +384,7 @@ public class SRUKFM {
         double l = this.a*this.a*(n+this.k)-n;
 
         MatReal W = p.multiply(Math.sqrt(n+l));
-        W = MatReal.horizontal(new MatReal[] {W, W.multiply(-1)});
+        W = MatReal.horizontal(W, W.multiply(-1));
 
         weight[0] = l/(l+n) + 1-this.a*this.a+this.b;
         for (int i = 1; i < n*2+1; i++) {
@@ -430,7 +430,7 @@ public class SRUKFM {
         //build compound MatRealrix for covariance update
         MatReal c = X[0].phi_inverse_vector(x).multiply(Math.sqrt(weight[1]));
         for (int i = 1; i < X.length; i++) {
-            c = MatReal.horizontal(new MatReal[] {c, X[i].phi_inverse_vector(x).multiply(Math.sqrt(weight[i+1]))});
+            c = MatReal.horizontal(c, X[i].phi_inverse_vector(x).multiply(Math.sqrt(weight[i+1])));
         }
         c = c.transpose();
 
@@ -450,7 +450,7 @@ public class SRUKFM {
         //build compound MatRealrix for covariance update
         c = Y[0].phi_inverse_vector(x).multiply(Math.sqrt(weight[1]));
         for (int i = 1; i < Y.length; i++) {
-            c = MatReal.horizontal(new MatReal[] {c, Y[i].phi_inverse_vector(x).multiply(Math.sqrt(weight[i+1]))});
+            c = MatReal.horizontal(c, Y[i].phi_inverse_vector(x).multiply(Math.sqrt(weight[i+1])));
         }
         c = c.transpose();
 
@@ -458,7 +458,7 @@ public class SRUKFM {
         MatReal p_ = c.QRDecomposition()[1].transpose();
 
         //p = sqrt(p*p.t + p_*p_.t)
-        this.p = MatReal.horizontal(new MatReal[] {p, p_}).transpose().QRDecomposition()[1].transpose();
+        this.p = MatReal.horizontal(p, p_).transpose().QRDecomposition()[1].transpose();
         this.x = x;
     }
 
@@ -491,9 +491,9 @@ public class SRUKFM {
         //innovation covariance
         MatReal c = Y[1].subtract(y).multiply(Math.sqrt(weight[1]));
         for (int i = 2; i < Y.length; i++) {
-            c = MatReal.horizontal(new MatReal[] {c, Y[i].subtract(y).multiply(Math.sqrt(weight[i]))});
+            c = MatReal.horizontal(c, Y[i].subtract(y).multiply(Math.sqrt(weight[i])));
         }
-        c = MatReal.horizontal(new MatReal[] {c, r}).transpose();
+        c = MatReal.horizontal(c, r).transpose();
 
         //qr
         MatReal s = c.QRDecomposition()[1].transpose();
@@ -525,7 +525,7 @@ public class SRUKFM {
      */
     private void update_julier(TriFunction<CompoundManifold, MatReal, MatReal, MatReal> h, MatReal z, MatReal r) {
         //augment covariance
-        MatReal p_aug = MatReal.diagonal(new MatReal[] {this.p, r});
+        MatReal p_aug = MatReal.diagonal(this.p, r);
         
         //generate state covariance noise
         double[] weight = new double[p_aug.getRows()*2+1];
@@ -550,7 +550,7 @@ public class SRUKFM {
         //innovation covariance
         MatReal c = Y[1].subtract(y).multiply(Math.sqrt(weight[1]));
         for (int i = 2; i < Y.length; i++) {
-            c = MatReal.horizontal(new MatReal[] {c, Y[i].subtract(y).multiply(Math.sqrt(weight[i]))});
+            c = MatReal.horizontal(c, Y[i].subtract(y).multiply(Math.sqrt(weight[i])));
         }
         c = c.transpose();
 
@@ -586,7 +586,7 @@ public class SRUKFM {
         int n = weight.length/2;
 
         MatReal W = p.multiply(Math.sqrt(n+this.l));
-        W = MatReal.horizontal(new MatReal[] {W, W.multiply(-1)});
+        W = MatReal.horizontal(W, W.multiply(-1));
 
         weight[0] = this.l / (this.l+n);
         for (int i = 1; i < n*2+1; i++) {
