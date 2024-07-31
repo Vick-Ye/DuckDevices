@@ -192,6 +192,7 @@ public class MatReal implements Mat<MatReal> {
     /**
      * Calculates the lower triangular matrix of the Cholesky decomposition
      * 
+     * @param solver a Cholesky instance from OjAlgo tuned to the matrix size
      * @return the lower triangular matrix of the Cholesky decomposition
      */
     public MatReal choleskyDecompose(Cholesky<Double> solver) {
@@ -204,9 +205,20 @@ public class MatReal implements Mat<MatReal> {
      * 
      * @return an array containing the Q and R matrices respectively from the QR decomposition of the matrix
      */
-    public MatReal[] QRDecomposition() {
+    public MatReal[] QRDecompose() {
         QR_SOLVER.decompose(this.value);
         return new MatReal[] {new MatReal(QR_SOLVER.getQ()), new MatReal(QR_SOLVER.getR())};
+    }
+
+    /**
+     * Calculates the upper triangular QR decomposition of the matrix
+     * 
+     * @param solver a QR instance from OjAlgo tuned to the matrix size
+     * @return an array containing the Q and R matrices respectively from the QR decomposition of the matrix
+     */
+    public MatReal[] QRDecompose(QR<Double> solver) {
+        solver.decompose(this.value);
+        return new MatReal[] {new MatReal(solver.getQ()), new MatReal(solver.getR())};
     }
 
     /**
@@ -251,6 +263,7 @@ public class MatReal implements Mat<MatReal> {
      * @param matrices array of the matrices to be combined
      * @return a matrix formed by placing the given matrices along the diagonal
      */
+    @SuppressWarnings("unchecked")
     public static MatReal diagonal(@Nonnull MatReal... matrices) {
         R064Store out = STORE_FACTORY.copy(matrices[0].value);
         for(int i = 1; i < matrices.length; i++) {

@@ -2,6 +2,8 @@ package com.quackology.duckfilter.filters;
 
 import java.util.function.Function;
 
+import org.ojalgo.matrix.decomposition.Cholesky;
+
 import com.quackology.duckfilter.functions.QuadFunction;
 import com.quackology.duckfilter.functions.TriFunction;
 import com.quackology.duckfilter.spaces.MatReal;
@@ -81,6 +83,11 @@ public class UKFM {
     private Sampling sampling = Sampling.MERWE;
 
     /**
+     * Cholesky Solver
+     */
+    private Cholesky<Double> choleskySolver;
+
+    /**
      * Constructor for the Unscented Kalman Filter on Manifolds
      * <p>
      * Default sampling method is Merwe
@@ -103,6 +110,7 @@ public class UKFM {
         this.k = 0;
         this.l = 3-x.getDimensions();
         
+        choleskySolver = Cholesky.R064.make(this.p.getRows(), this.p.getCols());
     }
 
     /**
@@ -363,7 +371,7 @@ public class UKFM {
 
         double l = this.a*this.a*(n+this.k)-n;
 
-        MatReal W = p.choleskyDecompose().multiply(Math.sqrt(n+l));
+        MatReal W = p.choleskyDecompose(choleskySolver).multiply(Math.sqrt(n+l));
         W = MatReal.horizontal(W, W.multiply(-1));
 
         weight[0] = l/(l+n) + 1-this.a*this.a+this.b;
@@ -540,7 +548,7 @@ public class UKFM {
 
         int n = weight.length/2;
 
-        MatReal W = p.choleskyDecompose().multiply(Math.sqrt(n+this.l));
+        MatReal W = p.choleskyDecompose(choleskySolver).multiply(Math.sqrt(n+this.l));
         W = MatReal.horizontal(W, W.multiply(-1));
 
         weight[0] = this.l / (this.l+n);

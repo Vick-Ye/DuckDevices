@@ -2,6 +2,8 @@ package com.quackology.duckfilter.filters;
 
 import java.util.function.Function;
 
+import org.ojalgo.matrix.decomposition.Cholesky;
+
 import com.quackology.duckfilter.distributions.MultivariateGaussian;
 import com.quackology.duckfilter.functions.TriFunction;
 import com.quackology.duckfilter.spaces.MatReal;
@@ -76,6 +78,11 @@ public class UKF {
     private Sampling sampling = Sampling.MERWE;
 
     /**
+     * Cholesky Solver
+     */
+    private Cholesky<Double> choleskySolver;
+
+    /**
      * Constructor for the Unscented Kalman Filter
      * <p>
      * Default sampling method is Merwe
@@ -97,6 +104,8 @@ public class UKF {
         this.b = 2;
         this.k = 0;
         this.l = 3-this.x.getRows();
+
+        choleskySolver = Cholesky.R064.make(this.p.getRows(), this.p.getCols());
     }
 
     /**
@@ -323,10 +332,10 @@ public class UKF {
 
         sigmaPoints[0] = x;
         for (int i = 1; i <= n; i++) {
-            sigmaPoints[i] = x.add(p.multiply(n+l).choleskyDecompose().getCol(i-1));
+            sigmaPoints[i] = x.add(p.multiply(n+l).choleskyDecompose(choleskySolver).getCol(i-1));
         }
         for (int i = n+1; i <= 2*n; i++) {
-            sigmaPoints[i] = x.subtract(p.multiply(n+l).choleskyDecompose().getCol(i-n-1));
+            sigmaPoints[i] = x.subtract(p.multiply(n+l).choleskyDecompose(choleskySolver).getCol(i-n-1));
         }
 
         weightM[0] = l / (l+n);
@@ -463,10 +472,10 @@ public class UKF {
 
         sigmaPoints[0] = x;
         for (int i = 1; i <= n; i++) {
-            sigmaPoints[i] = x.add(p.multiply(n+this.l).choleskyDecompose().getCol(i-1));
+            sigmaPoints[i] = x.add(p.multiply(n+this.l).choleskyDecompose(choleskySolver).getCol(i-1));
         }
         for (int i = n+1; i <= 2*n; i++) {
-            sigmaPoints[i] = x.subtract(p.multiply(n+this.l).choleskyDecompose().getCol(i-n-1));
+            sigmaPoints[i] = x.subtract(p.multiply(n+this.l).choleskyDecompose(choleskySolver).getCol(i-n-1));
         }
 
         weight[0] = this.l / (this.l+n);

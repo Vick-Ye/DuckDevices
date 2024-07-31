@@ -2,6 +2,8 @@ package com.quackology.duckfilter.filters;
 
 import java.util.function.Function;
 
+import org.ojalgo.matrix.decomposition.QR;
+
 import com.quackology.duckfilter.functions.TriFunction;
 import com.quackology.duckfilter.spaces.MatReal;
 
@@ -56,6 +58,11 @@ public class SRUKF {
     private double k;
 
     /**
+     * QR Solver
+     */
+    private QR<Double> qrSolver;
+
+    /**
      * Constructor for the square root unscented Kalman filter
      * <p>
      * Must set state transition function with setF
@@ -76,6 +83,8 @@ public class SRUKF {
         this.a = 0.001;
         this.b = 2;
         this.k = 0;
+
+        qrSolver = QR.R064.make(this.p.getRows()*2+1, this.x.getDimensions());
     }
 
     /**
@@ -125,7 +134,7 @@ public class SRUKF {
         c = MatReal.horizontal(c, this.q).transpose();
 
         //qr
-        MatReal s = c.QRDecomposition()[1].transpose();
+        MatReal s = c.QRDecompose(qrSolver)[1].transpose();
         
         //rank-1 cholesky update
         s = MatReal.cholUpdate(s, Y[0].subtract(this.x), weightC[0]);
@@ -172,7 +181,7 @@ public class SRUKF {
         c = c.transpose(); //no need to include q as it is already incorported by the state augmentation
 
         //qr
-        MatReal s = c.QRDecomposition()[1].transpose();
+        MatReal s = c.QRDecompose(qrSolver)[1].transpose();
         
         //rank-1 cholesky update
         s = MatReal.cholUpdate(s, Y[0].subtract(this.x), weightC[0]);
@@ -213,7 +222,7 @@ public class SRUKF {
         c = MatReal.horizontal(c, r).transpose();
 
         //qr
-        MatReal s = c.QRDecomposition()[1].transpose();
+        MatReal s = c.QRDecompose(qrSolver)[1].transpose();
 
         //rank-1 cholesky update
         s = MatReal.cholUpdate(s, Y[0].subtract(y), weightC[0]);

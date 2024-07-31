@@ -2,6 +2,8 @@ package com.quackology.duckfilter.filters;
 
 import java.util.function.Function;
 
+import org.ojalgo.matrix.decomposition.QR;
+
 import com.quackology.duckfilter.functions.QuadFunction;
 import com.quackology.duckfilter.functions.TriFunction;
 import com.quackology.duckfilter.spaces.MatReal;
@@ -74,6 +76,11 @@ public class SRUKFM {
     private Sampling sampling = Sampling.MERWE;
 
     /**
+     * QR Solver
+     */
+    private QR<Double> qrSolver;
+
+    /**
      * Constructor for the Square root Unscented Kalman Filter on Manifolds
      * <p>
      * Default sampling method is Merwe
@@ -98,6 +105,7 @@ public class SRUKFM {
         this.k = 0;
         this.l = 3-x.getDimensions();
         
+        qrSolver = QR.R064.make(this.p.getRows()*2, this.x.getDimensions());
     }
 
     /**
@@ -231,7 +239,7 @@ public class SRUKFM {
         c = c.transpose();
 
         //qr
-        MatReal p = c.QRDecomposition()[1].transpose();
+        MatReal p = c.QRDecompose(qrSolver)[1].transpose();
 
 
         //generate white noise
@@ -251,10 +259,10 @@ public class SRUKFM {
         c = c.transpose();
 
         //qr
-        MatReal p_ = c.QRDecomposition()[1].transpose();
+        MatReal p_ = c.QRDecompose(qrSolver)[1].transpose();
 
         //p = sqrt(p*p.t + p_*p_.t)
-        this.p = MatReal.horizontal(p, p_).transpose().QRDecomposition()[1].transpose();
+        this.p = MatReal.horizontal(p, p_).transpose().QRDecompose(qrSolver)[1].transpose();
         this.x = x;
     }
 
@@ -292,7 +300,7 @@ public class SRUKFM {
         c = MatReal.horizontal(c, r).transpose();
 
         //qr
-        MatReal s = c.QRDecomposition()[1].transpose();
+        MatReal s = c.QRDecompose(qrSolver)[1].transpose();
 
         //rank-1 cholesky update
         s = MatReal.cholUpdate(s, Y[0].subtract(y), weight[0]);
@@ -351,7 +359,7 @@ public class SRUKFM {
         c = c.transpose();
 
         //qr
-        MatReal s = c.QRDecomposition()[1].transpose();
+        MatReal s = c.QRDecompose(qrSolver)[1].transpose();
 
         //rank-1 cholesky update
         s = MatReal.cholUpdate(s, Y[0].subtract(y), weight[0]);
@@ -435,7 +443,7 @@ public class SRUKFM {
         c = c.transpose();
 
         //qr
-        MatReal p = c.QRDecomposition()[1].transpose();
+        MatReal p = c.QRDecompose(qrSolver)[1].transpose();
 
 
         //generate white noise
@@ -455,10 +463,10 @@ public class SRUKFM {
         c = c.transpose();
 
         //qr
-        MatReal p_ = c.QRDecomposition()[1].transpose();
+        MatReal p_ = c.QRDecompose(qrSolver)[1].transpose();
 
         //p = sqrt(p*p.t + p_*p_.t)
-        this.p = MatReal.horizontal(p, p_).transpose().QRDecomposition()[1].transpose();
+        this.p = MatReal.horizontal(p, p_).transpose().QRDecompose(qrSolver)[1].transpose();
         this.x = x;
     }
 
@@ -496,7 +504,7 @@ public class SRUKFM {
         c = MatReal.horizontal(c, r).transpose();
 
         //qr
-        MatReal s = c.QRDecomposition()[1].transpose();
+        MatReal s = c.QRDecompose(qrSolver)[1].transpose();
 
         //rank-1 cholesky update
         s = MatReal.cholUpdate(s, Y[0].subtract(y), weight[0]);
@@ -555,7 +563,7 @@ public class SRUKFM {
         c = c.transpose();
 
         //qr
-        MatReal s = c.QRDecomposition()[1].transpose();
+        MatReal s = c.QRDecompose(qrSolver)[1].transpose();
 
         //rank-1 cholesky update
         s = MatReal.cholUpdate(s, Y[0].subtract(y), weight[0]);
