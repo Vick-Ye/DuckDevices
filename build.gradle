@@ -3,6 +3,14 @@ plugins {
     id 'java-library'
 }
 
+allprojects {
+    group = "com.quackology.duckdevices"
+    version = "0.5.0"
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 
 def exportedProjects= [
         ":core",
@@ -13,4 +21,40 @@ tasks.register('alljavadoc', Javadoc) {
     source exportedProjects.collect { project(it).sourceSets.main.allJava }
     classpath = files(exportedProjects.collect { project(it).sourceSets.main.compileClasspath })
     destinationDir = file("${buildDir}/docs/javadoc")
+}
+
+tasks.register('allSourcesJar', Jar) {
+    archiveClassifier.set('sources')
+    from exportedProjects.collect { project(it).sourceSets.main.allJava }
+}
+
+subprojects {
+    apply plugin: "maven-publish"
+    project.afterEvaluate {
+        if (!plugins.hasPlugin("android")) {
+            publishing {
+                publications {
+                    maven(MavenPublication) {
+                        afterEvaluate {
+                            artifactId = "$project.name"
+                            if (plugins.hasPlugin("java")) {
+                                from components.java
+                            } else if (plugins.hasPlugin("android-library")) {
+                                from components.release
+                            }
+                        }
+                        repositories {
+                            maven {
+                                url = "https://maven.pkg.github.com/Vick-Ye/DuckDevices/"
+                                credentials {
+                                    username = System.getenv("GITHUB_ACTOR")
+                                    password = System.getenv("GITHUB_TOKEN")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
