@@ -75,7 +75,7 @@ public class SO3 extends MatLieGroup<SO3, MatReal> {
         double roll = element.toVector().get(2, 0);
         double theta = Math.sqrt(pitch*pitch + yaw*yaw + roll*roll);
 
-        if(theta <= 1e-4) {
+        if (theta <= 1e-4) {
             return new SO3(MatReal.identity(3));
         }
 
@@ -93,7 +93,7 @@ public class SO3 extends MatLieGroup<SO3, MatReal> {
     public SO3 exp(double pitch, double yaw, double roll) {
         double theta = Math.sqrt(pitch*pitch + yaw*yaw + roll*roll);
 
-        if(theta <= 1e-4) {
+        if (theta <= 1e-4) {
             return new SO3(MatReal.identity(3));
         }
 
@@ -118,7 +118,7 @@ public class SO3 extends MatLieGroup<SO3, MatReal> {
     public MatReal log(SO3 lieGroup) {
         double theta = Math.acos((lieGroup.value.trace()-1)/2);
 
-            if(theta == 0) {
+            if (theta == 0) {
                 return MatReal.empty(3, 1);
             }
 

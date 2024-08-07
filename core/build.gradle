@@ -12,14 +12,11 @@ dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:31.1-jre'
 
-    //colt library for matrix operations and math
-    api 'net.sourceforge.parallelcolt:parallelcolt:0.10.0'
+	// ojAlgo library for matrix operations
+    implementation 'org.ojalgo:ojalgo:54.0.0'
 
-    //apache commons math library for math operations
-    api 'org.apache.commons:commons-math3:3.6.1'
-
-	//ojAlgo library for matrix operations
-    api 'org.ojalgo:ojalgo:54.0.0'
+	// JTransforms library for FFT operations
+	implementation 'com.github.wendykierp:JTransforms:3.1'
 
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'

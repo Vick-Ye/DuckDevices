@@ -1,44 +1,85 @@
 package com.quackology.duckdevices.spaces;
 
-import cern.colt.matrix.tdcomplex.DComplexFactory2D;
-import cern.colt.matrix.tdcomplex.DComplexMatrix2D;
-import cern.colt.matrix.tdouble.DoubleFactory2D;
-import cern.colt.matrix.tdouble.DoubleMatrix2D;
+import org.ojalgo.matrix.MatrixC128;
+import org.ojalgo.matrix.MatrixR064;
+import org.ojalgo.matrix.store.GenericStore;
+import org.ojalgo.matrix.store.MatrixStore;
+import org.ojalgo.matrix.store.PhysicalStore;
+import org.ojalgo.scalar.ComplexNumber;
 
 /**
  * Wrapper class for 2D matrix of complex numbers
  * <p>
- * Based on the parallel colt library
+ * Based on OjAlgo's ComplexMatrix interface (MatrixC128)
  */
 public class MatComplex implements Mat<MatComplex> {
 
+	/**
+	 * OjAlgo's factory for creating matrices
+	 */
+	private static final MatrixC128.Factory MATRIX_FACTORY = MatrixC128.FACTORY;
+    private static final PhysicalStore.Factory<ComplexNumber, ?> STORE_FACTORY = GenericStore.C128;
     /**
-     * Values 
+     * Values of the matrix
      */
-    private DComplexMatrix2D value;
+	private final MatrixC128 value;
 
     /**
-     * Constructor of a matrix based on the parallel colt library matrix
+     * Constructor of a matrix based on the OjAlgo MatrixC128
      * 
-     * @param matrix DoubleMatrix2D from the parallel colt library
+     * @param matrix MatrixC128 from OjAlgo containing the values of the matrix
      */
-    public MatComplex(DComplexMatrix2D matrix) {
+    public MatComplex(MatrixC128 matrix) {
         this.value = matrix;
     }
 
     /**
-     * Constructor of a matrix with matrices of real and imaginary parts based on the parallel colt library
-     * 
-     * @param real DoubleMatrix2D from the parallel colt library containing the real part of the matrix
-     * @param img DoubleMatrix2D from the parallel colt library containing the imaginary part of the matrix
+     * Constructor of a matrix based on the OjAlgo MatrixStore
+     *
+     * @param matrix MatrixStore from OjAlgo containing the values of the matrix
      */
-    public MatComplex(DoubleMatrix2D real, DoubleMatrix2D img) {
-        if (real.rows() != img.rows() || real.columns() != img.columns()) {
+    public MatComplex(MatrixStore<ComplexNumber> matrix) {
+        this.value = MATRIX_FACTORY.copy(matrix);
+    }
+
+    /**
+     * Constructor of a matrix with real matrices representing real and imaginary parts based on OjAlgo's MatrixR064
+     * 
+     * @param real MatrixR064 from ojAlgo containing the real part of the matrix
+     * @param img MatrixR064 containing the imaginary part of the matrix
+     */
+    public MatComplex(MatrixR064 real, MatrixR064 img) {
+        if (real.getRowDim() != img.getRowDim() || real.getColDim() != img.getColDim()) {
             throw new IllegalArgumentException("Real and imaginary parts must be the same size");
         }
-        this.value = DComplexFactory2D.dense.make(real.rows(), real.columns());
-        this.value.assignReal(real);
-        this.value.assignImaginary(img);
+        PhysicalStore<ComplexNumber> out = STORE_FACTORY.make(real);
+        for (int i = 0; i < out.getRowDim(); i++) {
+            for (int j = 0; j < out.getColDim(); j++) {
+                out.set(i, j, ComplexNumber.of(real.get(i, j), img.get(i, j)));
+            }
+        }
+
+        this.value = MATRIX_FACTORY.copy(out);
+    }
+
+    /**
+     * Constructor of a matrix with real matrices representing real and imaginary parts based on OjAlgo's MatrixStore
+     *
+     * @param real MatrixR064 from ojAlgo containing the real part of the matrix
+     * @param img MatrixR064 containing the imaginary part of the matrix
+     */
+    public MatComplex(MatrixStore<Double> real, MatrixStore<Double> img) {
+        if (real.getRowDim() != img.getRowDim() || real.getColDim() != img.getColDim()) {
+            throw new IllegalArgumentException("Real and imaginary parts must be the same size");
+        }
+        PhysicalStore<ComplexNumber> out = STORE_FACTORY.make(real);
+        for (int i = 0; i < out.getRowDim(); i++) {
+            for (int j = 0; j < out.getColDim(); j++) {
+                out.set(i, j, ComplexNumber.of(real.get(i, j), img.get(i, j)));
+            }
+        }
+
+        this.value = MATRIX_FACTORY.copy(out);
     }
 
     /**
@@ -47,22 +88,23 @@ public class MatComplex implements Mat<MatComplex> {
      * @param matrix 2D array of complex numbers containing the values of the matrix
      */
     public MatComplex(Complex[][] matrix) {
-        this.value = DComplexFactory2D.dense.make(matrix.length, matrix[0].length);
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                this.value.set(i, j, matrix[i][j].getReal(), matrix[i][j].getImg());
+        PhysicalStore<ComplexNumber> out = STORE_FACTORY.make(matrix.length, matrix.length == 0 ? 0 : matrix[0].length);
+        for (int i = 0; i < out.getRowDim(); i++) {
+            for (int j = 0; j < out.getColDim(); j++) {
+                out.set(i, j, ComplexNumber.of(matrix[i][j].getReal(), matrix[i][j].getImg()));
             }
         }
+
+        this.value = MATRIX_FACTORY.copy(out);
     }
 
     /**
-     * Constructor of a matrix with a single complex number
-     * 
-     * @param real Real part of the only element in the matrix
-     * @param img Imaginary part of the only element in the matrix
+     * Constructor of a matrix with a single value
+     *
+     * @param value Value of only element in the matrix
      */
-    public MatComplex(double real, double img) {
-        this.value = DComplexFactory2D.dense.make(1, 1);
+    public MatComplex(Complex value) {
+        this(new Complex[][] {{value}});
     }
 
     /**
@@ -82,7 +124,27 @@ public class MatComplex implements Mat<MatComplex> {
      * @param img 2D array of doubles containing the imaginary part of the matrix
      */
     public MatComplex(double[][] real, double[][] img) {
-        this(DoubleFactory2D.dense.make(real), DoubleFactory2D.dense.make(img));
+        if (real.length != img.length || (real.length == 0 ? 0 : real[0].length) != (img.length == 0 ? 0 : img[0].length)) {
+            throw new IllegalArgumentException("Real and imaginary parts must be the same size");
+        }
+        PhysicalStore<ComplexNumber> out = STORE_FACTORY.make(real.length, real.length == 0 ? 0 : real[0].length);
+        for (int i = 0; i < out.getRowDim(); i++) {
+            for (int j = 0; j < out.getColDim(); j++) {
+                out.set(i, j, ComplexNumber.of(real[i][j], img[i][j]));
+            }
+        }
+
+        this.value = MATRIX_FACTORY.copy(out);
+    }
+
+    /**
+     * Constructor of a matrix with a single complex number
+     *
+     * @param real Real part of the only element in the matrix
+     * @param img Imaginary part of the only element in the matrix
+     */
+    public MatComplex(double real, double img) {
+        this(new Complex(real, img));
     }
 
     /**
@@ -94,7 +156,7 @@ public class MatComplex implements Mat<MatComplex> {
         Complex[][] out = new Complex[this.getRows()][this.getCols()];
         for (int i = 0; i < this.getRows(); i++) {
             for (int j = 0; j < this.getCols(); j++) {
-                out[i][j] = new Complex(this.value.get(i, j)[0], this.value.get(i, j)[1]);
+                out[i][j] = new Complex(this.value.get(i, j).getReal(), this.value.get(i, j).getImaginary());
             }
         }
         return out;
@@ -108,42 +170,55 @@ public class MatComplex implements Mat<MatComplex> {
      * @return the value at the given row and column
      */
     public Complex get(int row, int column) {
-        return new Complex(this.value.get(row, column)[0], this.value.get(row, column)[1]);
+        return new Complex(this.value.get(row, column).getReal(), this.value.get(row, column).getImaginary());
+    }
+
+    public MatReal getReal() {
+        return new MatReal(this.value.getReal());
+    }
+
+    public MatReal getImg() {
+        return new MatReal(this.value.getImaginary());
     }
     
     @Override
     public int getRows() {
-        return this.value.rows();
+        return this.value.getRowDim();
     }
 
     @Override
     public int getCols() {
-        return this.value.columns();
+        return this.value.getColDim();
     }
 
     @Override
     public MatComplex getRow(int row) {
-        return new MatComplex(this.value.viewPart(row, 0, 1, this.getCols()));
+        return new MatComplex(this.value.row(row));
     }
 
     @Override
     public MatComplex getCol(int column) {
-        return new MatComplex(this.value.viewPart(0, column, this.getRows(), 1));
+        return new MatComplex(this.value.column(column));
     }
 
     @Override
     public MatReal toVector() {
-        return MatReal.vertical(new MatReal[] {new MatReal(this.value.getRealPart().toArray()).toVector(), new MatReal(this.value.getImaginaryPart().toArray()).toVector()});
+        MatReal[] vector = new MatReal[this.getCols()*2];
+        for (int i = 0; i < this.getCols(); i++) {
+            vector[i] = this.getCol(i).getReal();
+            vector[i+this.getCols()] = this.getCol(i).getImg();
+        }
+        return MatReal.vertical(vector);
     }
 
     @Override
     public MatComplex transpose() {
-        return new MatComplex(this.value.viewDice());
+        return new MatComplex(this.value.transpose());
     }
 
     @Override
     public MatComplex subMat(int row, int column, int height, int width) {
-        return new MatComplex(this.value.viewPart(row, column, height, width));
+        return new MatComplex(this.value.offsets(row, column).limits(height, width));
     }
 
     /**
@@ -156,8 +231,8 @@ public class MatComplex implements Mat<MatComplex> {
      * @return a new matrix with the value at the given row and column set to the complex value of the given real and imaginary parts
      */
     public MatComplex set(int row, int column, double real, double img) {
-        Complex[][] out = this.get();
-        out[row][column] = new Complex(real, img);
+        PhysicalStore<ComplexNumber> out = STORE_FACTORY.copy(this.value);
+        out.set(row, column, ComplexNumber.of(real, img));
         return new MatComplex(out);
     }
 
@@ -170,65 +245,46 @@ public class MatComplex implements Mat<MatComplex> {
      * @return a new matrix with the value at the given row and column set to the given complex value
      */
     public MatComplex set(int row, int column, Complex value) {
-        Complex[][] out = this.get();
-        out[row][column] = value;
-        return new MatComplex(out);
+        return set(row, column, value.getReal(), value.getImg());
     }
 
     @Override
     public MatComplex add(MatComplex matrix) {
-        MatComplex out = new MatComplex(this.value.copy());
-        out.value.assign(matrix.value, (a, b) -> new double[] {a[0] + b[0], a[1] + b[1]});
-        return out;
+        return new MatComplex(this.value.add(matrix.value));
     }
 
     @Override
     public MatComplex subtract(MatComplex matrix) {
-        MatComplex out = new MatComplex(this.value.copy());
-        out.value.assign(matrix.value, (a, b) -> new double[] {a[0] - b[0], a[1] - b[1]});
-        return out;
+        return new MatComplex(this.value.subtract(matrix.value));
+
     }
 
     @Override
     public MatComplex multiply(MatComplex matrix) {
-        return new MatComplex(this.value.zMult(matrix.value, null));
+        return new MatComplex(this.value.multiply(matrix.value));
     }
 
     @Override
     public MatComplex multiply(double scalar) {
-        Complex[][] out = this.get();
-
-        for(int i = 0; i < this.getRows(); i++) {
-            for(int j = 0; j < this.getCols(); j++) {
-                out[i][j] = out[i][j].multiply(scalar);
-            }
-        }
-
-        return new MatComplex(out);
+        return new MatComplex(this.value.multiply(scalar));
     }
 
     /**
-     * Unimplemented
-     * <p>
-     * return the determinant of the matrix
-     * 
-     * @throws UnsupportedOperationException
+     * Gets the determinant of the matrix
+     *
      * @return the determinant of the matrix
      */
-    public double determinant() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public ComplexNumber determinant() {
+        return this.value.getDeterminant();
     }
 
     /**
-     * Unimplemented
-     * <p>
-     * return the inverse of the matrix
-     * 
-     * @throws UnsupportedOperationException
+     * Gets the inverse of the matrix
+     *
      * @return the inverse of the matrix
      */
     public MatComplex inverse() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return new MatComplex(this.value.invert());
     }
 
     /**
@@ -237,11 +293,8 @@ public class MatComplex implements Mat<MatComplex> {
      * @return the trace of the matrix
      */
     public Complex trace() {
-        Complex out = new Complex(0, 0);
-        for(int i = 0; i < Math.min(this.getRows(), this.getCols()); i++) {
-            out = out.add(this.get(i, i));
-        }
-        return out;
+        ComplexNumber trace = this.value.getTrace();
+        return new Complex(trace.getReal(), trace.getImaginary());
     }
 
     public String toString() {
@@ -255,7 +308,7 @@ public class MatComplex implements Mat<MatComplex> {
      * @return the identity matrix of the given size
      */
     public static MatComplex identity(int size) {
-        return new MatComplex(DComplexFactory2D.dense.identity(size));
+        return new MatComplex(MATRIX_FACTORY.makeEye(size, size));
     }
 
     /**
@@ -266,7 +319,7 @@ public class MatComplex implements Mat<MatComplex> {
      * @return a matrix of the given size with all elements set to 0
      */
     public static MatComplex empty(int rows, int columns) {
-        return new MatComplex(new double[rows][columns], new double[rows][columns]);
+        return new MatComplex(MATRIX_FACTORY.make(rows, columns));
     }
 
     /**
@@ -274,13 +327,13 @@ public class MatComplex implements Mat<MatComplex> {
      * <p>
      * Unfilled areas are filled with zeros
      * 
-     * @param matrices array of the matrices to be combined
+     * @param matrices the matrices to be combined
      * @return a matrix formed by placing the given matrices along the diagonal
      */
     public static MatComplex diagonal(MatComplex[] matrices) {
-        DComplexMatrix2D out = matrices[0].value;
-        for(int i = 1; i < matrices.length; i++) {
-            out = DComplexFactory2D.dense.composeDiagonal(out, matrices[i].value);
+        PhysicalStore<ComplexNumber> out = STORE_FACTORY.copy(matrices[0].value);
+        for (int i = 1; i < matrices.length; i++) {
+            out = STORE_FACTORY.copy(out.diagonally(matrices[i].value));
         }
         return new MatComplex(out);
     }
@@ -290,13 +343,13 @@ public class MatComplex implements Mat<MatComplex> {
      * <p>
      * Unfilled areas are filled with zeros
      * 
-     * @param matrices array of the matrices to be combined
+     * @param matrices the matrices to be combined
      * @return a matrix formed by placing the given matrices horizontally
      */
     public static MatComplex horizontal(MatComplex[] matrices) {
-        DComplexMatrix2D out = matrices[0].value;
-        for(int i = 1; i < matrices.length; i++) {
-            out = DComplexFactory2D.dense.appendColumns(out, matrices[i].value);
+        PhysicalStore<ComplexNumber> out = STORE_FACTORY.copy(matrices[0].value);
+        for (int i = 1; i < matrices.length; i++) {
+            out = STORE_FACTORY.copy(out.right(matrices[i].value));
         }
         return new MatComplex(out);
     }
@@ -310,9 +363,9 @@ public class MatComplex implements Mat<MatComplex> {
      * @return a matrix formed by placing the given matrices vertically
      */
     public static MatComplex vertical(MatComplex[] matrices) {
-        DComplexMatrix2D out = matrices[0].value;
-        for(int i = 1; i < matrices.length; i++) {
-            out = DComplexFactory2D.dense.appendRows(out, matrices[i].value);
+        PhysicalStore<ComplexNumber> out = STORE_FACTORY.copy(matrices[0].value);
+        for (int i = 1; i < matrices.length; i++) {
+            out = STORE_FACTORY.copy(out.below(matrices[i].value));
         }
         return new MatComplex(out);
     }

@@ -88,6 +88,11 @@ public class UKFM {
     private Cholesky<Double> choleskySolver;
 
     /**
+     * Tolerance for positive semi-definite matrix
+     */
+    private static final double TOLERANCE = 1e-6;
+
+    /**
      * Constructor for the Unscented Kalman Filter on Manifolds
      * <p>
      * Default sampling method is Merwe
@@ -364,7 +369,7 @@ public class UKFM {
      * @return noise vectors
      */
     private MatReal generateNoise_merwe(double[] weight, MatReal p) {
-        MatReal tolerance = MatReal.identity(p.getRows()).multiply(1e-6);
+        MatReal tolerance = MatReal.identity(p.getRows()).multiply(TOLERANCE);
         p = p.add(tolerance);
 
         int n = weight.length/2;
@@ -543,7 +548,7 @@ public class UKFM {
      * @return noise vectors
      */
     private MatReal generateNoise_julier(double[] weight, MatReal p) {
-        MatReal tolerance = MatReal.identity(p.getRows()).multiply(1e-6);
+        MatReal tolerance = MatReal.identity(p.getRows()).multiply(TOLERANCE);
         p = p.add(tolerance);
 
         int n = weight.length/2;

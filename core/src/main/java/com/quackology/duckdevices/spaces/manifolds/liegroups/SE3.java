@@ -69,7 +69,7 @@ public class SE3 extends MatLieGroup<SE3, MatReal> {
         double theta = Math.sqrt(pitch*pitch + yaw*yaw + roll*roll);
 
         MatReal V;
-        if(Math.abs(theta) <= 1e-4) {
+        if (Math.abs(theta) <= 1e-4) {
             V = MatReal.identity(3);
         } else {
             V = MatReal.identity(3).add(SO3.FACTORY.wedge(rot).multiply((1-Math.cos(theta))/(theta*theta))).add(SO3.FACTORY.wedge(rot).multiply(SO3.FACTORY.wedge(rot)).multiply((theta-Math.sin(theta))/(theta*theta*theta)));
@@ -103,7 +103,7 @@ public class SE3 extends MatLieGroup<SE3, MatReal> {
         double theta = Math.sqrt(pitch*pitch + yaw*yaw + roll*roll);
 
         MatReal V;
-        if(Math.abs(theta) <= 1e-4) {
+        if (Math.abs(theta) <= 1e-4) {
             V = MatReal.identity(3);
         } else {
             V = MatReal.identity(3).add(SO3.FACTORY.wedge(rot).multiply((1-Math.cos(theta))/(theta*theta))).add(SO3.FACTORY.wedge(rot).multiply(SO3.FACTORY.wedge(rot)).multiply((theta-Math.sin(theta))/(theta*theta*theta)));

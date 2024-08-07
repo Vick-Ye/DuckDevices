@@ -1,4 +1,4 @@
-package duckfilter.ukftest;
+package com.quackology.duckdevices.ukftest;
 
 import java.util.Random;
 

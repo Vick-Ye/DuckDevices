@@ -81,6 +81,11 @@ public class SRUKFM {
     private QR<Double> qrSolver;
 
     /**
+     * Tolerance for positive semi-definite matrix
+     */
+    private static final double TOLERANCE = 1e-6;
+
+    /**
      * Constructor for the Square root Unscented Kalman Filter on Manifolds
      * <p>
      * Default sampling method is Merwe
@@ -93,7 +98,7 @@ public class SRUKFM {
      * @param u control input
      */
     public SRUKFM(CompoundManifold x, MatReal p, MatReal q, MatReal u) {
-        MatReal tolerance = MatReal.identity(p.getRows()).multiply(1e-6);
+        MatReal tolerance = MatReal.identity(p.getRows()).multiply(TOLERANCE);
 
         this.x = x;
         this.p = p.add(tolerance).choleskyDecompose();

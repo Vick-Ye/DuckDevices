@@ -46,7 +46,7 @@ public class KalmanFilter {
      * @param f state transition function
      * @param q process noise covariance
      * @param u control input
-     * @param b control trasnformation
+     * @param b control transformation
      */
     public KalmanFilter(MatReal x, MatReal p, MatReal f, MatReal q, MatReal u, MatReal b) {
         this.x = x;

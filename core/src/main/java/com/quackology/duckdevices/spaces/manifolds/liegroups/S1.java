@@ -64,7 +64,7 @@ public class S1 extends LieGroup<S1, Complex> {
 
     @Override
     public S1 make(Complex value) {
-        if(value.abs()-1 > 1e12) {
+        if (value.abs()-1 > 1e12) {
             throw new IllegalArgumentException("The value must be a unit complex number");
         }
         return new S1(value);

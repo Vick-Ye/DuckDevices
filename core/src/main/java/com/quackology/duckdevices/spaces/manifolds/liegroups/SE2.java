@@ -65,7 +65,7 @@ public class SE2 extends MatLieGroup<SE2, MatReal> {
         double theta = element.toVector().get(2, 0);
 
         MatReal V;
-        if(Math.abs(theta) <= 1e-4) {
+        if (Math.abs(theta) <= 1e-4) {
             V = MatReal.identity(2);
         } else {
             V = MatReal.identity(2).multiply(Math.sin(theta)/theta).add(SO2.FACTORY.wedge(1).multiply((1-Math.cos(theta))/theta));
@@ -94,7 +94,7 @@ public class SE2 extends MatLieGroup<SE2, MatReal> {
         double theta = SO2.FACTORY.log(SO2.FACTORY.make(lieGroup.value.subMat(0, 0, 2, 2))).get(0, 0);
 
         MatReal V;
-        if(Math.abs(theta) <= 1e-4) {
+        if (Math.abs(theta) <= 1e-4) {
             V = MatReal.identity(2);
         } else {
             V = MatReal.identity(2).multiply(Math.sin(theta)/theta).add(SO2.FACTORY.wedge(1).multiply((1-Math.cos(theta))/theta));

@@ -4,7 +4,7 @@ plugins {
 }
 
 allprojects {
-    group = "com.quackology.duckdevices"
+    group = 'com.quackology.duckdevices'
     version = "0.5.0"
     repositories {
         google()
@@ -47,8 +47,8 @@ subprojects {
                             maven {
                                 url = "https://maven.pkg.github.com/Vick-Ye/DuckDevices/"
                                 credentials {
-                                    username = System.getenv("GITHUB_ACTOR")
-                                    password = System.getenv("GITHUB_TOKEN")
+									username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USER")
+									password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
                                 }
                             }
                         }

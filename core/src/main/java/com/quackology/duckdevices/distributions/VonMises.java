@@ -1,8 +1,7 @@
 package com.quackology.duckdevices.distributions;
 
-import com.quackology.duckdevices.Utils;
-
-import cern.jet.math.tdouble.Bessel;
+import com.quackology.duckdevices.utils.Utils;
+import com.quackology.duckdevices.utils.cern.jet.math.Bessel;
 
 /**
  * Von Mises distribution
@@ -75,7 +74,7 @@ public class VonMises implements Distribution {
             n++;
         } while(current > threshold);
 
-        return (2*sum + x*Bessel.i0(this.k)) / (2*Math.PI*Bessel.i0(this.k));
+        return (2*sum + x* Bessel.i0(this.k)) / (2*Math.PI*Bessel.i0(this.k));
     }
 
     /**

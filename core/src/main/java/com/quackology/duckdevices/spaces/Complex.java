@@ -2,14 +2,16 @@ package com.quackology.duckdevices.spaces;
 
 import com.quackology.duckdevices.spaces.manifolds.liegroups.S1;
 
+import org.ojalgo.scalar.ComplexNumber;
+
 /**
  * Wrapper class for complex
  * <p>
- * Based on apache commons math library for complex numbers
+ * Based on OjAlgo's ComplexNumber
  */
 public class Complex implements Linear {
 
-    private org.apache.commons.math3.complex.Complex value;
+    private final ComplexNumber value;
 
     /**
      * Constructor of an imaginary number
@@ -18,16 +20,15 @@ public class Complex implements Linear {
      * @param img the imaginary part of the complex number
      */
     public Complex(double real, double img) {
-        value = new org.apache.commons.math3.complex.Complex(real, img);
+        this.value = ComplexNumber.of(real, img);
     }
 
     /**
-     * Constructor of a complex number based on the apache commons math library complex number
+     * Constructor of a complex number based the ojAlgo's ComplexNumber
      * 
-     * @param value the complex number to be wrapped
-     * @return
+     * @param value ComplexNumber from ojAlgo
      */
-    public Complex(org.apache.commons.math3.complex.Complex value) {
+    public Complex(ComplexNumber value) {
         this.value = value;
     }
 
@@ -75,7 +76,7 @@ public class Complex implements Linear {
      * @return the magnitude of the complex number
      */
     public double mag() {
-        return this.value.abs();
+        return this.value.norm();
     }
 
     /**
@@ -86,7 +87,7 @@ public class Complex implements Linear {
      * @return the absolute value of the complex number
      */
     public double abs() {
-        return this.value.abs();
+        return this.value.norm();
     }
 
     /**

@@ -83,6 +83,11 @@ public class UKF {
     private Cholesky<Double> choleskySolver;
 
     /**
+     * Tolerance for positive semi-definite matrix
+     */
+    private static final double TOLERANCE = 1e-6;
+
+    /**
      * Constructor for the Unscented Kalman Filter
      * <p>
      * Default sampling method is Merwe
@@ -324,7 +329,7 @@ public class UKF {
      * @param p state covariance
      */
     private void generateSigmaPoints(MatReal[] sigmaPoints, double[] weightM, double[] weightC, MatReal x, MatReal p) {
-        MatReal tolerance = MatReal.identity(p.getRows()).multiply(1e-6);
+        MatReal tolerance = MatReal.identity(p.getRows()).multiply(TOLERANCE);
         p = p.add(tolerance);
         
         int n = sigmaPoints.length/2;

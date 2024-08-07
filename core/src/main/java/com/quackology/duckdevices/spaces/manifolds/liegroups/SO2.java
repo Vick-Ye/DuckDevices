@@ -24,7 +24,7 @@ public class SO2 extends MatLieGroup<SO2, MatReal> {
 
     @Override
     public SO2 make(MatReal value) {
-        if(Math.abs(value.determinant()-1) > 1e-4 || value.getDimensions() != 4 || value.getRows() != 2 || Math.abs(value.multiply(value.transpose()).trace()-2) > 1e-4) {
+        if (Math.abs(value.determinant()-1) > 1e-4 || value.getDimensions() != 4 || value.getRows() != 2 || Math.abs(value.multiply(value.transpose()).trace()-2) > 1e-4) {
             throw new IllegalArgumentException("Invalid SO2 matrix");
         }
         return new SO2(value);

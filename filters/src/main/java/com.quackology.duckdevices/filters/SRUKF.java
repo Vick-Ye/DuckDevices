@@ -63,6 +63,11 @@ public class SRUKF {
     private QR<Double> qrSolver;
 
     /**
+     * Tolerance for positive semi-definite matrix
+     */
+    private static final double TOLERANCE = 1e-6;
+
+    /**
      * Constructor for the square root unscented Kalman filter
      * <p>
      * Must set state transition function with setF
@@ -73,7 +78,7 @@ public class SRUKF {
      * @param u control input
      */
     public SRUKF(MatReal x, MatReal p, MatReal q, MatReal u) {
-        MatReal tolerance = MatReal.identity(p.getRows()).multiply(1e-6);
+        MatReal tolerance = MatReal.identity(p.getRows()).multiply(TOLERANCE);
 
         this.x = x;
         this.p = p.add(tolerance).choleskyDecompose();

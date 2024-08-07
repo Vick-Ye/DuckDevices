@@ -1,4 +1,4 @@
-package duckfilter.ukfmtest;
+package com.quackology.duckdevices.ukfmtest;
 
 import java.util.ArrayList;
 
@@ -217,8 +217,7 @@ public class UKFM_Test {
         ArrayList<Double> srukfmSDY = new ArrayList<>();
         ArrayList<Double> srukfmSDRot = new ArrayList<>();
         
-        long t0 = System.nanoTime();
-        for(int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             time.add(i*dt+dt);
             robot.move(dt);
 
@@ -263,7 +262,6 @@ public class UKFM_Test {
             trueY.add(robot.getState().get(1, 0));
             trueRot.add(robot.getState().get(2, 0));
         }
-        System.out.println((System.nanoTime()-t0)*1e-9);
 
         XYChart chart = QuickChart.getChart("Path", "X", "Y", "True Path", trueX, trueY);
         chart.addSeries("UKF", ukfX, ukfY);
@@ -275,7 +273,7 @@ public class UKFM_Test {
         ArrayList<Double> residual = new ArrayList<>();
         ArrayList<Double> lowerBound = new ArrayList<>();
         ArrayList<Double> upperBound = new ArrayList<>();
-        for(int i = 0; i < time.size(); i++) {
+        for (int i = 0; i < time.size(); i++) {
             upperBound.add(3*ukfSDX.get(i));
             lowerBound.add(-3*ukfSDX.get(i));
             residual.add(ukfX.get(i) - trueX.get(i));
@@ -288,7 +286,7 @@ public class UKFM_Test {
         residual = new ArrayList<>();
         lowerBound = new ArrayList<>();
         upperBound = new ArrayList<>();
-        for(int i = 0; i < time.size(); i++) {
+        for (int i = 0; i < time.size(); i++) {
             upperBound.add(3*ukfSDY.get(i));
             lowerBound.add(-3*ukfSDY.get(i));
             residual.add(ukfY.get(i) - trueY.get(i));
@@ -301,7 +299,7 @@ public class UKFM_Test {
         residual = new ArrayList<>();
         lowerBound = new ArrayList<>();
         upperBound = new ArrayList<>();
-        for(int i = 0; i < time.size(); i++) {
+        for (int i = 0; i < time.size(); i++) {
             upperBound.add(3*ukfSDRot.get(i));
             lowerBound.add(-3*ukfSDRot.get(i));
             residual.add(SO2.FACTORY.log(SO2.FACTORY.exp(ukfRot.get(i)).inverse().compose(SO2.FACTORY.exp(trueRot.get(i)))).get(0, 0));
@@ -315,7 +313,7 @@ public class UKFM_Test {
         residual = new ArrayList<>();
         lowerBound = new ArrayList<>();
         upperBound = new ArrayList<>();
-        for(int i = 0; i < time.size(); i++) {
+        for (int i = 0; i < time.size(); i++) {
             upperBound.add(3*ukfmSDX.get(i));
             lowerBound.add(-3*ukfmSDX.get(i));
             residual.add(ukfmX.get(i) - trueX.get(i));
@@ -328,7 +326,7 @@ public class UKFM_Test {
         residual = new ArrayList<>();
         lowerBound = new ArrayList<>();
         upperBound = new ArrayList<>();
-        for(int i = 0; i < time.size(); i++) {
+        for (int i = 0; i < time.size(); i++) {
             upperBound.add(3*ukfmSDY.get(i));
             lowerBound.add(-3*ukfmSDY.get(i));
             residual.add(ukfmY.get(i) - trueY.get(i));
@@ -341,7 +339,7 @@ public class UKFM_Test {
         residual = new ArrayList<>();
         lowerBound = new ArrayList<>();
         upperBound = new ArrayList<>();
-        for(int i = 0; i < time.size(); i++) {
+        for (int i = 0; i < time.size(); i++) {
             upperBound.add(3*ukfmSDRot.get(i));
             lowerBound.add(-3*ukfmSDRot.get(i));
             residual.add(SO2.FACTORY.log(SO2.FACTORY.exp(ukfmRot.get(i)).inverse().compose(SO2.FACTORY.exp(trueRot.get(i)))).get(0, 0));
@@ -355,7 +353,7 @@ public class UKFM_Test {
         residual = new ArrayList<>();
         lowerBound = new ArrayList<>();
         upperBound = new ArrayList<>();
-        for(int i = 0; i < time.size(); i++) {
+        for (int i = 0; i < time.size(); i++) {
             upperBound.add(3*srukfmSDX.get(i));
             lowerBound.add(-3*srukfmSDX.get(i));
             residual.add(srukfmX.get(i) - trueX.get(i));
@@ -368,7 +366,7 @@ public class UKFM_Test {
         residual = new ArrayList<>();
         lowerBound = new ArrayList<>();
         upperBound = new ArrayList<>();
-        for(int i = 0; i < time.size(); i++) {
+        for (int i = 0; i < time.size(); i++) {
             upperBound.add(3*srukfmSDY.get(i));
             lowerBound.add(-3*srukfmSDY.get(i));
             residual.add(srukfmY.get(i) - trueY.get(i));
@@ -381,7 +379,7 @@ public class UKFM_Test {
         residual = new ArrayList<>();
         lowerBound = new ArrayList<>();
         upperBound = new ArrayList<>();
-        for(int i = 0; i < time.size(); i++) {
+        for (int i = 0; i < time.size(); i++) {
             upperBound.add(3*srukfmSDRot.get(i));
             lowerBound.add(-3*srukfmSDRot.get(i));
             residual.add(SO2.FACTORY.log(SO2.FACTORY.exp(srukfmRot.get(i)).inverse().compose(SO2.FACTORY.exp(trueRot.get(i)))).get(0, 0));
