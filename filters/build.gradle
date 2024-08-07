@@ -11,9 +11,6 @@ repositories {
 dependencies {
     api project(':core')
 
-    // ojAlgo for optimized matrix use
-    implementation 'org.ojalgo:ojalgo:54.0.0'
-
     // XChart library for plotting
     testImplementation 'org.knowm.xchart:xchart:3.8.0'
 
