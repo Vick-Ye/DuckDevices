@@ -4,7 +4,7 @@ No guarantee of accuracy nor good programming practice
 
 Just attempting to implement various state controllers and estimators
 
-javadoc: https://vick-ye.github.io/DuckDevicesJavaDoc/
+javadoc: https://vick-ye.github.io/DuckDevices/
 
 ## Sources/Papers
 "A New Extension of the Kalman Filter to Nonlinear Systems" by Simon J. Julier and Jeffrey K. Uhlmann
