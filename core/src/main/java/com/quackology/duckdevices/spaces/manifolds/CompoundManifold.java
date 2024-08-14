@@ -18,21 +18,12 @@ public class CompoundManifold implements Space {
     Manifold[] manifolds;
 
     /**
-     * Constructor based on the array of manifolds
+     * Constructor based on manifolds making up the compound manifold
      * 
-     * @param manifolds the array of manifolds that make up the compound manifold
+     * @param manifolds the manifolds that make up the compound manifold
      */
-    public CompoundManifold(Manifold[] manifolds) {
+    public CompoundManifold(Manifold... manifolds) {
         this.manifolds = manifolds;
-    }
-
-    /**
-     * Constructor based on a single manifold
-     * 
-     * @param manifold the single manifold that makes up the compound manifold
-     */
-    public CompoundManifold(Manifold manifold) {
-        this.manifolds = new Manifold[] {manifold};
     }
 
      /**

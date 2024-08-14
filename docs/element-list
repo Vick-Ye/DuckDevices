@@ -1,0 +1,8 @@
+com.quackology.duckdevices.distributions
+com.quackology.duckdevices.filters
+com.quackology.duckdevices.functions
+com.quackology.duckdevices.spaces
+com.quackology.duckdevices.spaces.manifolds
+com.quackology.duckdevices.spaces.manifolds.liegroups
+com.quackology.duckdevices.utils
+com.quackology.duckdevices.utils.cern.jet.math

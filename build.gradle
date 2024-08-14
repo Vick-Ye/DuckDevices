@@ -20,7 +20,7 @@ def exportedProjects= [
 tasks.register('alljavadoc', Javadoc) {
     source exportedProjects.collect { project(it).sourceSets.main.allJava }
     classpath = files(exportedProjects.collect { project(it).sourceSets.main.compileClasspath })
-    destinationDir = file("${buildDir}/docs/javadoc")
+    destinationDir = file("${projectDir}/docs")
 }
 
 tasks.register('allSourcesJar', Jar) {
