@@ -162,7 +162,7 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <div class="block">Gets the determinant of the matrix</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#diagonal(com.quackology.duckdevices.spaces.MatComplex%5B%5D)" class="member-name-link">diagonal</a><wbr>(<a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>[]&nbsp;matrices)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#diagonal(com.quackology.duckdevices.spaces.MatComplex...)" class="member-name-link">diagonal</a><wbr>(<a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>...&nbsp;matrices)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Forms a matrix by placing the given matrices diagonally</div>
 </div>
@@ -210,7 +210,7 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <div class="block">Gets the number of rows of the matrix</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#horizontal(com.quackology.duckdevices.spaces.MatComplex%5B%5D)" class="member-name-link">horizontal</a><wbr>(<a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>[]&nbsp;matrices)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#horizontal(com.quackology.duckdevices.spaces.MatComplex...)" class="member-name-link">horizontal</a><wbr>(<a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>...&nbsp;matrices)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Forms a matrix by placing the given matrices horizontally</div>
 </div>
@@ -281,7 +281,7 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <div class="block">Gets the transpose of the matrix</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#vertical(com.quackology.duckdevices.spaces.MatComplex%5B%5D)" class="member-name-link">vertical</a><wbr>(<a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>[]&nbsp;matrices)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#vertical(com.quackology.duckdevices.spaces.MatComplex...)" class="member-name-link">vertical</a><wbr>(<a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>...&nbsp;matrices)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Forms a matrix by placing the given matrices vertically</div>
 </div>
@@ -740,9 +740,10 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 </section>
 </li>
 <li>
-<section class="detail" id="diagonal(com.quackology.duckdevices.spaces.MatComplex[])">
+<section class="detail" id="diagonal(com.quackology.duckdevices.spaces.MatComplex...)">
 <h3>diagonal</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></span>&nbsp;<span class="element-name">diagonal</span><wbr><span class="parameters">(<a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>[]&nbsp;matrices)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></span>&nbsp;<span class="element-name">diagonal</span><wbr><span class="parameters">(@Nonnull
+ <a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>...&nbsp;matrices)</span></div>
 <div class="block">Forms a matrix by placing the given matrices diagonally
  <p>
  Unfilled areas are filled with zeros</div>
@@ -755,9 +756,10 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 </section>
 </li>
 <li>
-<section class="detail" id="horizontal(com.quackology.duckdevices.spaces.MatComplex[])">
+<section class="detail" id="horizontal(com.quackology.duckdevices.spaces.MatComplex...)">
 <h3>horizontal</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></span>&nbsp;<span class="element-name">horizontal</span><wbr><span class="parameters">(<a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>[]&nbsp;matrices)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></span>&nbsp;<span class="element-name">horizontal</span><wbr><span class="parameters">(@Nonnull
+ <a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>...&nbsp;matrices)</span></div>
 <div class="block">Forms a matrix by placing the given matrices horizontally
  <p>
  Unfilled areas are filled with zeros</div>
@@ -770,9 +772,10 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 </section>
 </li>
 <li>
-<section class="detail" id="vertical(com.quackology.duckdevices.spaces.MatComplex[])">
+<section class="detail" id="vertical(com.quackology.duckdevices.spaces.MatComplex...)">
 <h3>vertical</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></span>&nbsp;<span class="element-name">vertical</span><wbr><span class="parameters">(<a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>[]&nbsp;matrices)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></span>&nbsp;<span class="element-name">vertical</span><wbr><span class="parameters">(@Nonnull
+ <a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>...&nbsp;matrices)</span></div>
 <div class="block">Forms a matrix by placing the given matrices vertically
  <p>
  Unfilled areas are filled with zeros</div>

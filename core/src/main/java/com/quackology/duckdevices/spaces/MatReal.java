@@ -265,7 +265,6 @@ public class MatReal implements Mat<MatReal> {
      * @param matrices the matrices to be combined
      * @return a matrix formed by placing the given matrices along the diagonal
      */
-    @SuppressWarnings("unchecked")
     public static MatReal diagonal(@Nonnull MatReal... matrices) {
         R064Store out = STORE_FACTORY.copy(matrices[0].value);
         for (int i = 1; i < matrices.length; i++) {

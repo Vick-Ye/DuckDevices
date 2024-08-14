@@ -4,6 +4,8 @@ import com.quackology.duckdevices.spaces.Linear;
 import com.quackology.duckdevices.spaces.MatReal;
 import com.quackology.duckdevices.spaces.Space;
 
+import javax.annotation.Nonnull;
+
 /**
  * Compound manifold class for combining multiple manifolds
  * <p>
@@ -22,7 +24,7 @@ public class CompoundManifold implements Space {
      * 
      * @param manifolds the manifolds that make up the compound manifold
      */
-    public CompoundManifold(Manifold... manifolds) {
+    public CompoundManifold(@Nonnull Manifold... manifolds) {
         this.manifolds = manifolds;
     }
 

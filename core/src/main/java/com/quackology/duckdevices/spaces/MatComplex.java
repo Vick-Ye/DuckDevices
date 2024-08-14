@@ -7,6 +7,8 @@ import org.ojalgo.matrix.store.MatrixStore;
 import org.ojalgo.matrix.store.PhysicalStore;
 import org.ojalgo.scalar.ComplexNumber;
 
+import javax.annotation.Nonnull;
+
 /**
  * Wrapper class for 2D matrix of complex numbers
  * <p>
@@ -330,7 +332,7 @@ public class MatComplex implements Mat<MatComplex> {
      * @param matrices the matrices to be combined
      * @return a matrix formed by placing the given matrices along the diagonal
      */
-    public static MatComplex diagonal(MatComplex[] matrices) {
+    public static MatComplex diagonal(@Nonnull MatComplex... matrices) {
         PhysicalStore<ComplexNumber> out = STORE_FACTORY.copy(matrices[0].value);
         for (int i = 1; i < matrices.length; i++) {
             out = STORE_FACTORY.copy(out.diagonally(matrices[i].value));
@@ -346,7 +348,7 @@ public class MatComplex implements Mat<MatComplex> {
      * @param matrices the matrices to be combined
      * @return a matrix formed by placing the given matrices horizontally
      */
-    public static MatComplex horizontal(MatComplex[] matrices) {
+    public static MatComplex horizontal(@Nonnull MatComplex... matrices) {
         PhysicalStore<ComplexNumber> out = STORE_FACTORY.copy(matrices[0].value);
         for (int i = 1; i < matrices.length; i++) {
             out = STORE_FACTORY.copy(out.right(matrices[i].value));
@@ -362,7 +364,7 @@ public class MatComplex implements Mat<MatComplex> {
      * @param matrices array of the matrices to be combined
      * @return a matrix formed by placing the given matrices vertically
      */
-    public static MatComplex vertical(MatComplex[] matrices) {
+    public static MatComplex vertical(@Nonnull MatComplex... matrices) {
         PhysicalStore<ComplexNumber> out = STORE_FACTORY.copy(matrices[0].value);
         for (int i = 1; i < matrices.length; i++) {
             out = STORE_FACTORY.copy(out.below(matrices[i].value));
