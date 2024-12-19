@@ -1,5 +1,6 @@
 package com.quackology.duckdevices.distributions;
 
+import com.quackology.duckdevices.spaces.MatReal;
 import com.quackology.duckdevices.utils.Utils;
 import com.quackology.duckdevices.utils.cern.jet.math.Bessel;
 
@@ -52,8 +53,8 @@ public class VonMises implements Distribution {
      * @param x value to evaluate the probability density function at
      * @return the value of the probability density function at x
      */
-    public double pdf(double x) {
-        return Math.exp(this.k * Math.cos(x - mean)) / (2*Math.PI*Bessel.i0(this.k));
+    public double pdf(MatReal x) {
+        return Math.exp(this.k * Math.cos(x.get(0, 0) - mean)) / (2*Math.PI*Bessel.i0(this.k));
     }
 
     /**

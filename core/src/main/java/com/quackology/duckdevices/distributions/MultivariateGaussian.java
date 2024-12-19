@@ -5,7 +5,7 @@ import com.quackology.duckdevices.spaces.MatReal;
 /**
  * Multivariate Gaussian distribution
  */
-public class MultivariateGaussian {
+public class MultivariateGaussian implements Distribution {
     /**
      * Mean of the distribution
      */
