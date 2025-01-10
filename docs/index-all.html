@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="script.js"></script>
-<script type="text/javascript" src="script-dir/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="script-dir/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="index-page">
@@ -326,7 +326,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Concrete implementation of the Distribution interface</div>
 </dd>
-<dt><a href="com/quackology/duckdevices/distributions/DistributionImpl.html#%3Cinit%3E(T,java.util.function.BiFunction)" class="member-name-link">DistributionImpl(T, BiFunction&lt;T, Double, Double&gt;)</a> - Constructor for class com.quackology.duckdevices.distributions.<a href="com/quackology/duckdevices/distributions/DistributionImpl.html" title="class in com.quackology.duckdevices.distributions">DistributionImpl</a></dt>
+<dt><a href="com/quackology/duckdevices/distributions/DistributionImpl.html#%3Cinit%3E(T,java.util.function.BiFunction)" class="member-name-link">DistributionImpl(T, BiFunction&lt;T, MatReal, Double&gt;)</a> - Constructor for class com.quackology.duckdevices.distributions.<a href="com/quackology/duckdevices/distributions/DistributionImpl.html" title="class in com.quackology.duckdevices.distributions">DistributionImpl</a></dt>
 <dd>
 <div class="block">Constructor of the DistributionImpl using data describing the distribution and a pdf lambda function</div>
 </dd>
@@ -995,17 +995,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Inverse Fast (Discrete) Fourier Transform</div>
 </dd>
-<dt><a href="com/quackology/duckdevices/distributions/Distribution.html#pdf(double)" class="member-name-link">pdf(double)</a> - Method in interface com.quackology.duckdevices.distributions.<a href="com/quackology/duckdevices/distributions/Distribution.html" title="interface in com.quackology.duckdevices.distributions">Distribution</a></dt>
+<dt><a href="com/quackology/duckdevices/distributions/Distribution.html#pdf(com.quackology.duckdevices.spaces.MatReal)" class="member-name-link">pdf(MatReal)</a> - Method in interface com.quackology.duckdevices.distributions.<a href="com/quackology/duckdevices/distributions/Distribution.html" title="interface in com.quackology.duckdevices.distributions">Distribution</a></dt>
 <dd>
 <div class="block">The probability density function of the distribution</div>
 </dd>
-<dt><a href="com/quackology/duckdevices/distributions/DistributionImpl.html#pdf(double)" class="member-name-link">pdf(double)</a> - Method in class com.quackology.duckdevices.distributions.<a href="com/quackology/duckdevices/distributions/DistributionImpl.html" title="class in com.quackology.duckdevices.distributions">DistributionImpl</a></dt>
+<dt><a href="com/quackology/duckdevices/distributions/DistributionImpl.html#pdf(com.quackology.duckdevices.spaces.MatReal)" class="member-name-link">pdf(MatReal)</a> - Method in class com.quackology.duckdevices.distributions.<a href="com/quackology/duckdevices/distributions/DistributionImpl.html" title="class in com.quackology.duckdevices.distributions">DistributionImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/quackology/duckdevices/distributions/VonMises.html#pdf(double)" class="member-name-link">pdf(double)</a> - Method in class com.quackology.duckdevices.distributions.<a href="com/quackology/duckdevices/distributions/VonMises.html" title="class in com.quackology.duckdevices.distributions">VonMises</a></dt>
+<dt><a href="com/quackology/duckdevices/distributions/MultivariateGaussian.html#pdf(com.quackology.duckdevices.spaces.MatReal)" class="member-name-link">pdf(MatReal)</a> - Method in class com.quackology.duckdevices.distributions.<a href="com/quackology/duckdevices/distributions/MultivariateGaussian.html" title="class in com.quackology.duckdevices.distributions">MultivariateGaussian</a></dt>
 <dd>
 <div class="block">Evaluate the probability density function at the given value</div>
 </dd>
-<dt><a href="com/quackology/duckdevices/distributions/MultivariateGaussian.html#pdf(com.quackology.duckdevices.spaces.MatReal)" class="member-name-link">pdf(MatReal)</a> - Method in class com.quackology.duckdevices.distributions.<a href="com/quackology/duckdevices/distributions/MultivariateGaussian.html" title="class in com.quackology.duckdevices.distributions">MultivariateGaussian</a></dt>
+<dt><a href="com/quackology/duckdevices/distributions/VonMises.html#pdf(com.quackology.duckdevices.spaces.MatReal)" class="member-name-link">pdf(MatReal)</a> - Method in class com.quackology.duckdevices.distributions.<a href="com/quackology/duckdevices/distributions/VonMises.html" title="class in com.quackology.duckdevices.distributions">VonMises</a></dt>
 <dd>
 <div class="block">Evaluate the probability density function at the given value</div>
 </dd>
@@ -1172,7 +1172,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set the state transition function</div>
 </dd>
-<dt><a href="com/quackology/duckdevices/distributions/DistributionImpl.html#setPdf(java.util.function.BiFunction)" class="member-name-link">setPdf(BiFunction&lt;T, Double, Double&gt;)</a> - Method in class com.quackology.duckdevices.distributions.<a href="com/quackology/duckdevices/distributions/DistributionImpl.html" title="class in com.quackology.duckdevices.distributions">DistributionImpl</a></dt>
+<dt><a href="com/quackology/duckdevices/distributions/DistributionImpl.html#setPdf(java.util.function.BiFunction)" class="member-name-link">setPdf(BiFunction&lt;T, MatReal, Double&gt;)</a> - Method in class com.quackology.duckdevices.distributions.<a href="com/quackology/duckdevices/distributions/DistributionImpl.html" title="class in com.quackology.duckdevices.distributions">DistributionImpl</a></dt>
 <dd>
 <div class="block">Sets the lambda function that the method pdf will use to evaluate the pdf</div>
 </dd>

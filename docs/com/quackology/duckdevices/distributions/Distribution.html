@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../script.js"></script>
-<script type="text/javascript" src="../../../../script-dir/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="../../../../script-dir/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
@@ -73,7 +73,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
-<dd><code><a href="DistributionImpl.html" title="class in com.quackology.duckdevices.distributions">DistributionImpl</a></code>, <code><a href="VonMises.html" title="class in com.quackology.duckdevices.distributions">VonMises</a></code></dd>
+<dd><code><a href="DistributionImpl.html" title="class in com.quackology.duckdevices.distributions">DistributionImpl</a></code>, <code><a href="MultivariateGaussian.html" title="class in com.quackology.duckdevices.distributions">MultivariateGaussian</a></code>, <code><a href="VonMises.html" title="class in com.quackology.duckdevices.distributions">VonMises</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">Distribution</span></div>
@@ -93,7 +93,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#pdf(double)" class="member-name-link">pdf</a><wbr>(double&nbsp;x)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#pdf(com.quackology.duckdevices.spaces.MatReal)" class="member-name-link">pdf</a><wbr>(<a href="../spaces/MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a>&nbsp;x)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">The probability density function of the distribution</div>
 </div>
@@ -112,9 +112,9 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="pdf(double)">
+<section class="detail" id="pdf(com.quackology.duckdevices.spaces.MatReal)">
 <h3>pdf</h3>
-<div class="member-signature"><span class="return-type">double</span>&nbsp;<span class="element-name">pdf</span><wbr><span class="parameters">(double&nbsp;x)</span></div>
+<div class="member-signature"><span class="return-type">double</span>&nbsp;<span class="element-name">pdf</span><wbr><span class="parameters">(<a href="../spaces/MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a>&nbsp;x)</span></div>
 <div class="block">The probability density function of the distribution</div>
 <dl class="notes">
 <dt>Parameters:</dt>

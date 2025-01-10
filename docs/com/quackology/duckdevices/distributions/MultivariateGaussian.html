@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../script.js"></script>
-<script type="text/javascript" src="../../../../script-dir/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="../../../../script-dir/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
@@ -74,9 +74,14 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">com.quackology.duckdevices.distributions.MultivariateGaussian</div>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>All Implemented Interfaces:</dt>
+<dd><code><a href="Distribution.html" title="interface in com.quackology.duckdevices.distributions">Distribution</a></code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MultivariateGaussian</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+implements <a href="Distribution.html" title="interface in com.quackology.duckdevices.distributions">Distribution</a></span></div>
 <div class="block">Multivariate Gaussian distribution</div>
 </section>
 <section class="summary">
@@ -189,6 +194,8 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">pdf</span><wbr><span class="parameters">(<a href="../spaces/MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a>&nbsp;x)</span></div>
 <div class="block">Evaluate the probability density function at the given value</div>
 <dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Distribution.html#pdf(com.quackology.duckdevices.spaces.MatReal)">pdf</a></code>&nbsp;in interface&nbsp;<code><a href="Distribution.html" title="interface in com.quackology.duckdevices.distributions">Distribution</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>x</code> - value to evaluate the probability density function at</dd>
 <dt>Returns:</dt>
