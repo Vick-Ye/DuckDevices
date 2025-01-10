@@ -13,10 +13,10 @@ dependencies {
     implementation 'com.google.guava:guava:31.1-jre'
 
 	// ojAlgo library for matrix operations
-    api 'org.ojalgo:ojalgo:54.0.0'
+    implementation 'org.ojalgo:ojalgo:54.0.0'
 
 	// JTransforms library for FFT operations
-	api 'com.github.wendykierp:JTransforms:3.1'
+	implementation 'com.github.wendykierp:JTransforms:3.1'
 
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
