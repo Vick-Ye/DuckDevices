@@ -7,8 +7,6 @@ import org.ojalgo.matrix.store.MatrixStore;
 import org.ojalgo.matrix.store.PhysicalStore;
 import org.ojalgo.scalar.ComplexNumber;
 
-import javax.annotation.Nonnull;
-
 /**
  * Wrapper class for 2D matrix of complex numbers
  * <p>
@@ -31,7 +29,7 @@ public class MatComplex implements Mat<MatComplex> {
      * 
      * @param matrix MatrixC128 from OjAlgo containing the values of the matrix
      */
-    public MatComplex(MatrixC128 matrix) {
+    private MatComplex(MatrixC128 matrix) {
         this.value = matrix;
     }
 
@@ -40,7 +38,7 @@ public class MatComplex implements Mat<MatComplex> {
      *
      * @param matrix MatrixStore from OjAlgo containing the values of the matrix
      */
-    public MatComplex(MatrixStore<ComplexNumber> matrix) {
+    private MatComplex(MatrixStore<ComplexNumber> matrix) {
         this.value = MATRIX_FACTORY.copy(matrix);
     }
 
@@ -50,7 +48,7 @@ public class MatComplex implements Mat<MatComplex> {
      * @param real MatrixR064 from ojAlgo containing the real part of the matrix
      * @param img MatrixR064 containing the imaginary part of the matrix
      */
-    public MatComplex(MatrixR064 real, MatrixR064 img) {
+    private MatComplex(MatrixR064 real, MatrixR064 img) {
         if (real.getRowDim() != img.getRowDim() || real.getColDim() != img.getColDim()) {
             throw new IllegalArgumentException("Real and imaginary parts must be the same size");
         }
@@ -70,7 +68,7 @@ public class MatComplex implements Mat<MatComplex> {
      * @param real MatrixR064 from ojAlgo containing the real part of the matrix
      * @param img MatrixR064 containing the imaginary part of the matrix
      */
-    public MatComplex(MatrixStore<Double> real, MatrixStore<Double> img) {
+    private MatComplex(MatrixStore<Double> real, MatrixStore<Double> img) {
         if (real.getRowDim() != img.getRowDim() || real.getColDim() != img.getColDim()) {
             throw new IllegalArgumentException("Real and imaginary parts must be the same size");
         }
@@ -176,11 +174,11 @@ public class MatComplex implements Mat<MatComplex> {
     }
 
     public MatReal getReal() {
-        return new MatReal(this.value.getReal());
+        return new MatReal(this.value.getReal().toRawCopy2D());
     }
 
     public MatReal getImg() {
-        return new MatReal(this.value.getImaginary());
+        return new MatReal(this.value.getImaginary().toRawCopy2D());
     }
     
     @Override
@@ -276,8 +274,9 @@ public class MatComplex implements Mat<MatComplex> {
      *
      * @return the determinant of the matrix
      */
-    public ComplexNumber determinant() {
-        return this.value.getDeterminant();
+    public Complex determinant() {
+        ComplexNumber out = this.value.getDeterminant();
+        return new Complex(out.getReal(), out.getImaginary());
     }
 
     /**
@@ -332,7 +331,7 @@ public class MatComplex implements Mat<MatComplex> {
      * @param matrices the matrices to be combined
      * @return a matrix formed by placing the given matrices along the diagonal
      */
-    public static MatComplex diagonal(@Nonnull MatComplex... matrices) {
+    public static MatComplex diagonal(MatComplex... matrices) {
         PhysicalStore<ComplexNumber> out = STORE_FACTORY.copy(matrices[0].value);
         for (int i = 1; i < matrices.length; i++) {
             out = STORE_FACTORY.copy(out.diagonally(matrices[i].value));
@@ -348,7 +347,7 @@ public class MatComplex implements Mat<MatComplex> {
      * @param matrices the matrices to be combined
      * @return a matrix formed by placing the given matrices horizontally
      */
-    public static MatComplex horizontal(@Nonnull MatComplex... matrices) {
+    public static MatComplex horizontal(MatComplex... matrices) {
         PhysicalStore<ComplexNumber> out = STORE_FACTORY.copy(matrices[0].value);
         for (int i = 1; i < matrices.length; i++) {
             out = STORE_FACTORY.copy(out.right(matrices[i].value));
@@ -364,7 +363,7 @@ public class MatComplex implements Mat<MatComplex> {
      * @param matrices array of the matrices to be combined
      * @return a matrix formed by placing the given matrices vertically
      */
-    public static MatComplex vertical(@Nonnull MatComplex... matrices) {
+    public static MatComplex vertical(MatComplex... matrices) {
         PhysicalStore<ComplexNumber> out = STORE_FACTORY.copy(matrices[0].value);
         for (int i = 1; i < matrices.length; i++) {
             out = STORE_FACTORY.copy(out.below(matrices[i].value));

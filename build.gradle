@@ -14,7 +14,7 @@ allprojects {
 
 def exportedProjects= [
         ":core",
-        ":filters"
+        ":algorithms"
 ]
 
 tasks.register('alljavadoc', Javadoc) {

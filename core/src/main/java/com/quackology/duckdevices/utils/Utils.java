@@ -467,7 +467,7 @@ public class Utils {
      * <p>
      * https://en.wikipedia.org/wiki/Miller%27s_recurrence_algorithm
      * <p>
-     * based on ideas from Numeric Recipes
+     * based on Numeric Recipes
      * 
      * @param k the order of the Bessel function
      * @param x the argument of the Bessel function

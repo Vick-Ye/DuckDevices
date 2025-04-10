@@ -1,2 +1,2 @@
 rootProject.name = 'DuckDevices'
-include 'core', 'filters'
+include 'core', 'algorithms'

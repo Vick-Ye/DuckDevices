@@ -1,5 +1,5 @@
 plugins {
-    // Apply the java-library plugin for API and implementation separation.
+    // Apply the java-library plugin for API and testImplementation separation.
     id 'java-library'
 }
 
@@ -16,8 +16,6 @@ dependencies {
 
     // XChart library for plotting
     testImplementation 'org.knowm.xchart:xchart:3.8.0'
-
-
 }
 
 tasks.register('testUKFM', JavaExec) {

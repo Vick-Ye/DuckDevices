@@ -28,7 +28,7 @@ public class Complex implements Linear {
      * 
      * @param value ComplexNumber from ojAlgo
      */
-    public Complex(ComplexNumber value) {
+    private Complex(ComplexNumber value) {
         this.value = value;
     }
 

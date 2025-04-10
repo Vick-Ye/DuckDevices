@@ -8,8 +8,6 @@ import org.ojalgo.matrix.store.PhysicalStore;
 import org.ojalgo.matrix.store.R064Store;
 import org.ojalgo.matrix.store.RawStore;
 
-import javax.annotation.Nonnull;
-
 /**
  * Wrapper class for 2D matrix of real numbers
  * <p>
@@ -39,7 +37,7 @@ public class MatReal implements Mat<MatReal> {
      * 
      * @param matrix MatrixR064 from OjAlgo containing the values of the matrix
      */
-    public MatReal(MatrixR064 matrix) {
+    private MatReal(MatrixR064 matrix) {
         this.value = matrix;
     }
 
@@ -48,7 +46,7 @@ public class MatReal implements Mat<MatReal> {
      *
      * @param matrix MatrixR064 from OjAlgo containing the values of the matrix
      */
-    public MatReal(MatrixStore<Double> matrix) {
+    private MatReal(MatrixStore<Double> matrix) {
         this.value = MATRIX_FACTORY.copy(matrix);
     }
 
@@ -265,7 +263,7 @@ public class MatReal implements Mat<MatReal> {
      * @param matrices the matrices to be combined
      * @return a matrix formed by placing the given matrices along the diagonal
      */
-    public static MatReal diagonal(@Nonnull MatReal... matrices) {
+    public static MatReal diagonal(MatReal... matrices) {
         R064Store out = STORE_FACTORY.copy(matrices[0].value);
         for (int i = 1; i < matrices.length; i++) {
             out = STORE_FACTORY.copy(out.diagonally(matrices[i].value));
@@ -281,7 +279,7 @@ public class MatReal implements Mat<MatReal> {
      * @param matrices the matrices to be combined
      * @return a matrix formed by placing the given matrices horizontally
      */
-    public static MatReal horizontal(@Nonnull MatReal... matrices) {
+    public static MatReal horizontal(MatReal... matrices) {
         R064Store out = STORE_FACTORY.copy(matrices[0].value);
         for (int i = 1; i < matrices.length; i++) {
             out = STORE_FACTORY.copy(out.right(matrices[i].value));
@@ -297,7 +295,7 @@ public class MatReal implements Mat<MatReal> {
      * @param matrices array of the matrices to be combined
      * @return a matrix formed by placing the given matrices vertically
      */
-    public static MatReal vertical(@Nonnull MatReal... matrices) {
+    public static MatReal vertical(MatReal... matrices) {
         R064Store out = STORE_FACTORY.copy(matrices[0].value);
         for (int i = 1; i < matrices.length; i++) {
             out = STORE_FACTORY.copy(out.below(matrices[i].value));
