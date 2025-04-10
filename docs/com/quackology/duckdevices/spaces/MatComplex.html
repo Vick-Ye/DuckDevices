@@ -119,24 +119,6 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <div class="col-last even-row-color">
 <div class="block">Constructor of a matrix with matrices of real and imaginary parts based on MatReal</div>
 </div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(org.ojalgo.matrix.MatrixC128)" class="member-name-link">MatComplex</a><wbr>(org.ojalgo.matrix.MatrixC128&nbsp;matrix)</code></div>
-<div class="col-last odd-row-color">
-<div class="block">Constructor of a matrix based on the OjAlgo MatrixC128</div>
-</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(org.ojalgo.matrix.MatrixR064,org.ojalgo.matrix.MatrixR064)" class="member-name-link">MatComplex</a><wbr>(org.ojalgo.matrix.MatrixR064&nbsp;real,
- org.ojalgo.matrix.MatrixR064&nbsp;img)</code></div>
-<div class="col-last even-row-color">
-<div class="block">Constructor of a matrix with real matrices representing real and imaginary parts based on OjAlgo's MatrixR064</div>
-</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(org.ojalgo.matrix.store.MatrixStore,org.ojalgo.matrix.store.MatrixStore)" class="member-name-link">MatComplex</a><wbr>(org.ojalgo.matrix.store.MatrixStore&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;real,
- org.ojalgo.matrix.store.MatrixStore&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;img)</code></div>
-<div class="col-last odd-row-color">
-<div class="block">Constructor of a matrix with real matrices representing real and imaginary parts based on OjAlgo's MatrixStore</div>
-</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(org.ojalgo.matrix.store.MatrixStore)" class="member-name-link">MatComplex</a><wbr>(org.ojalgo.matrix.store.MatrixStore&lt;org.ojalgo.scalar.ComplexNumber&gt;&nbsp;matrix)</code></div>
-<div class="col-last even-row-color">
-<div class="block">Constructor of a matrix based on the OjAlgo MatrixStore</div>
-</div>
 </div>
 </section>
 </li>
@@ -156,7 +138,7 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds the matrices together</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.ojalgo.scalar.ComplexNumber</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Complex.html" title="class in com.quackology.duckdevices.spaces">Complex</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#determinant()" class="member-name-link">determinant</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the determinant of the matrix</div>
@@ -305,54 +287,6 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <section class="constructor-details" id="constructor-detail">
 <h2>Constructor Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="&lt;init&gt;(org.ojalgo.matrix.MatrixC128)">
-<h3>MatComplex</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MatComplex</span><wbr><span class="parameters">(org.ojalgo.matrix.MatrixC128&nbsp;matrix)</span></div>
-<div class="block">Constructor of a matrix based on the OjAlgo MatrixC128</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>matrix</code> - MatrixC128 from OjAlgo containing the values of the matrix</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(org.ojalgo.matrix.store.MatrixStore)">
-<h3>MatComplex</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MatComplex</span><wbr><span class="parameters">(org.ojalgo.matrix.store.MatrixStore&lt;org.ojalgo.scalar.ComplexNumber&gt;&nbsp;matrix)</span></div>
-<div class="block">Constructor of a matrix based on the OjAlgo MatrixStore</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>matrix</code> - MatrixStore from OjAlgo containing the values of the matrix</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(org.ojalgo.matrix.MatrixR064,org.ojalgo.matrix.MatrixR064)">
-<h3>MatComplex</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MatComplex</span><wbr><span class="parameters">(org.ojalgo.matrix.MatrixR064&nbsp;real,
- org.ojalgo.matrix.MatrixR064&nbsp;img)</span></div>
-<div class="block">Constructor of a matrix with real matrices representing real and imaginary parts based on OjAlgo's MatrixR064</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>real</code> - MatrixR064 from ojAlgo containing the real part of the matrix</dd>
-<dd><code>img</code> - MatrixR064 containing the imaginary part of the matrix</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(org.ojalgo.matrix.store.MatrixStore,org.ojalgo.matrix.store.MatrixStore)">
-<h3>MatComplex</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MatComplex</span><wbr><span class="parameters">(org.ojalgo.matrix.store.MatrixStore&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;real,
- org.ojalgo.matrix.store.MatrixStore&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;img)</span></div>
-<div class="block">Constructor of a matrix with real matrices representing real and imaginary parts based on OjAlgo's MatrixStore</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>real</code> - MatrixR064 from ojAlgo containing the real part of the matrix</dd>
-<dd><code>img</code> - MatrixR064 containing the imaginary part of the matrix</dd>
-</dl>
-</section>
-</li>
 <li>
 <section class="detail" id="&lt;init&gt;(com.quackology.duckdevices.spaces.Complex[][])">
 <h3>MatComplex</h3>
@@ -671,7 +605,7 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <li>
 <section class="detail" id="determinant()">
 <h3>determinant</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">org.ojalgo.scalar.ComplexNumber</span>&nbsp;<span class="element-name">determinant</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Complex.html" title="class in com.quackology.duckdevices.spaces">Complex</a></span>&nbsp;<span class="element-name">determinant</span>()</div>
 <div class="block">Gets the determinant of the matrix</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -742,8 +676,7 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <li>
 <section class="detail" id="diagonal(com.quackology.duckdevices.spaces.MatComplex...)">
 <h3>diagonal</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></span>&nbsp;<span class="element-name">diagonal</span><wbr><span class="parameters">(@Nonnull
- <a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>...&nbsp;matrices)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></span>&nbsp;<span class="element-name">diagonal</span><wbr><span class="parameters">(<a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>...&nbsp;matrices)</span></div>
 <div class="block">Forms a matrix by placing the given matrices diagonally
  <p>
  Unfilled areas are filled with zeros</div>
@@ -758,8 +691,7 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <li>
 <section class="detail" id="horizontal(com.quackology.duckdevices.spaces.MatComplex...)">
 <h3>horizontal</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></span>&nbsp;<span class="element-name">horizontal</span><wbr><span class="parameters">(@Nonnull
- <a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>...&nbsp;matrices)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></span>&nbsp;<span class="element-name">horizontal</span><wbr><span class="parameters">(<a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>...&nbsp;matrices)</span></div>
 <div class="block">Forms a matrix by placing the given matrices horizontally
  <p>
  Unfilled areas are filled with zeros</div>
@@ -774,8 +706,7 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <li>
 <section class="detail" id="vertical(com.quackology.duckdevices.spaces.MatComplex...)">
 <h3>vertical</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></span>&nbsp;<span class="element-name">vertical</span><wbr><span class="parameters">(@Nonnull
- <a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>...&nbsp;matrices)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a></span>&nbsp;<span class="element-name">vertical</span><wbr><span class="parameters">(<a href="MatComplex.html" title="class in com.quackology.duckdevices.spaces">MatComplex</a>...&nbsp;matrices)</span></div>
 <div class="block">Forms a matrix by placing the given matrices vertically
  <p>
  Unfilled areas are filled with zeros</div>

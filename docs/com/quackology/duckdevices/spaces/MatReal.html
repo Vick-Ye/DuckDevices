@@ -104,14 +104,6 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <div class="col-last odd-row-color">
 <div class="block">Constructor of a matrix with a 2D array of doubles</div>
 </div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(org.ojalgo.matrix.MatrixR064)" class="member-name-link">MatReal</a><wbr>(org.ojalgo.matrix.MatrixR064&nbsp;matrix)</code></div>
-<div class="col-last even-row-color">
-<div class="block">Constructor of a matrix based on the OjAlgo MatrixR064</div>
-</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(org.ojalgo.matrix.store.MatrixStore)" class="member-name-link">MatReal</a><wbr>(org.ojalgo.matrix.store.MatrixStore&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;matrix)</code></div>
-<div class="col-last odd-row-color">
-<div class="block">Constructor of a matrix based on the OjAlgo MatrixStore</div>
-</div>
 </div>
 </section>
 </li>
@@ -305,28 +297,6 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <section class="constructor-details" id="constructor-detail">
 <h2>Constructor Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="&lt;init&gt;(org.ojalgo.matrix.MatrixR064)">
-<h3>MatReal</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MatReal</span><wbr><span class="parameters">(org.ojalgo.matrix.MatrixR064&nbsp;matrix)</span></div>
-<div class="block">Constructor of a matrix based on the OjAlgo MatrixR064</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>matrix</code> - MatrixR064 from OjAlgo containing the values of the matrix</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(org.ojalgo.matrix.store.MatrixStore)">
-<h3>MatReal</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MatReal</span><wbr><span class="parameters">(org.ojalgo.matrix.store.MatrixStore&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;matrix)</span></div>
-<div class="block">Constructor of a matrix based on the OjAlgo MatrixStore</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>matrix</code> - MatrixR064 from OjAlgo containing the values of the matrix</dd>
-</dl>
-</section>
-</li>
 <li>
 <section class="detail" id="&lt;init&gt;(double)">
 <h3>MatReal</h3>
@@ -694,8 +664,7 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <li>
 <section class="detail" id="diagonal(com.quackology.duckdevices.spaces.MatReal...)">
 <h3>diagonal</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a></span>&nbsp;<span class="element-name">diagonal</span><wbr><span class="parameters">(@Nonnull
- <a href="MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a>...&nbsp;matrices)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a></span>&nbsp;<span class="element-name">diagonal</span><wbr><span class="parameters">(<a href="MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a>...&nbsp;matrices)</span></div>
 <div class="block">Forms a matrix by placing the given matrices diagonally
  <p>
  Unfilled areas are filled with zeros</div>
@@ -710,8 +679,7 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <li>
 <section class="detail" id="horizontal(com.quackology.duckdevices.spaces.MatReal...)">
 <h3>horizontal</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a></span>&nbsp;<span class="element-name">horizontal</span><wbr><span class="parameters">(@Nonnull
- <a href="MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a>...&nbsp;matrices)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a></span>&nbsp;<span class="element-name">horizontal</span><wbr><span class="parameters">(<a href="MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a>...&nbsp;matrices)</span></div>
 <div class="block">Forms a matrix by placing the given matrices horizontally
  <p>
  Unfilled areas are filled with zeros</div>
@@ -726,8 +694,7 @@ implements <a href="Mat.html" title="interface in com.quackology.duckdevices.spa
 <li>
 <section class="detail" id="vertical(com.quackology.duckdevices.spaces.MatReal...)">
 <h3>vertical</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a></span>&nbsp;<span class="element-name">vertical</span><wbr><span class="parameters">(@Nonnull
- <a href="MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a>...&nbsp;matrices)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a></span>&nbsp;<span class="element-name">vertical</span><wbr><span class="parameters">(<a href="MatReal.html" title="class in com.quackology.duckdevices.spaces">MatReal</a>...&nbsp;matrices)</span></div>
 <div class="block">Forms a matrix by placing the given matrices vertically
  <p>
  Unfilled areas are filled with zeros</div>
