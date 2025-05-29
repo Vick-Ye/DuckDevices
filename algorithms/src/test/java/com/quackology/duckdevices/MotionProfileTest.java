@@ -35,10 +35,10 @@ public class MotionProfileTest {
             integral += velocity.get(velocity.size()-1)*dt;
         }
 
-        XYChart chart_ukfX = QuickChart.getChart("Position and Velocity", "Time", "State", "Position", time, position);
-        chart_ukfX.addSeries("Velocity", time, velocity);
-        chart_ukfX.addSeries("VelocityIntegral", time, velocityIntegral);
+        XYChart chart_profile = QuickChart.getChart("Position and Velocity", "Time", "State", "Position", time, position);
+        chart_profile.addSeries("Velocity", time, velocity);
+        chart_profile.addSeries("VelocityIntegral", time, velocityIntegral);
 
-        new SwingWrapper<>(chart_ukfX).displayChart();
+        new SwingWrapper<>(chart_profile).displayChart();
     }
 }

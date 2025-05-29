@@ -31,3 +31,17 @@ tasks.register('testUKF', JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
     mainClass = 'com.quackology.duckdevices.ukftest.UKF_Test'
 }
+
+tasks.register('testMotionProfile', JavaExec) {
+    group = "Execution"
+    description = "Test trapozoidal motion profile"
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.quackology.duckdevices.MotionProfileTest'
+}
+
+tasks.register('testPathBuilder', JavaExec) {
+    group = "Execution"
+    description = "Test trapozoidal path builder"
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.quackology.duckdevices.PathBuilderTest'
+}

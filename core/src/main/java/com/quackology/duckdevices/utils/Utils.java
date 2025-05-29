@@ -1,11 +1,12 @@
 package com.quackology.duckdevices.utils;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
+
+import org.jtransforms.fft.DoubleFFT_1D;
 
 import com.quackology.duckdevices.spaces.Complex;
 import com.quackology.duckdevices.utils.cern.jet.math.Bessel;
-
-import org.jtransforms.fft.DoubleFFT_1D;
 
 /**
  * Utility class for various operations
@@ -428,9 +429,9 @@ public class Utils {
     }
 
     /**
-     * Map of factorial values for faster computation but higher memory usage
+     * Map of factorial values for cached computation but higher memory usage
      */
-    private static HashMap<Long, Long> factorialTable = new HashMap<Long, Long>();
+    private static HashMap<Long, Long> factorialTable = new HashMap<>();
 
     /**
      * Factorial computation through dynamic programming (memoization)
@@ -458,6 +459,23 @@ public class Utils {
             out *= i;
         }
         return out;
+    }
+
+    /**
+     * Standard combination computation
+     *
+     * @param a
+     * @param b
+     * @return a choose b
+     */
+    public static long combination(long a, long b) {
+        long minimized = Math.min(b, a-b);
+        double out = 1;
+        for(int i = 0; i < minimized; i++) {
+            out *= a-i;
+            out /= i+1;
+        }
+        return Math.round(out);
     }
 
     /**
@@ -515,7 +533,7 @@ public class Utils {
      * @param b second number to be compared
      * @return a &lt; b
      */
-    private static boolean lessThan(double a, double b) {
+    public static boolean lessThan(double a, double b) {
         return a < b && !equals(a, b);
     }
 
@@ -526,7 +544,7 @@ public class Utils {
      * @param b second number to be compared
      * @return a &gt; b
      */
-    private static boolean greaterThan(double a, double b) {
+    public static boolean greaterThan(double a, double b) {
         return a > b && !equals(a, b);
     }
 
@@ -537,8 +555,44 @@ public class Utils {
      * @param b second number to be compared
      * @return a == b
      */
-    private static boolean equals(double a, double b) {
+    public static boolean equals(double a, double b) {
         return Math.abs(a-b) < TOLERANCE;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T[] concat(T[]... arrays) {
+        int length = 0;
+        for (T[] array : arrays) length += array.length;
+        T[] out = (T[]) Array.newInstance(arrays[0].getClass().getComponentType(), length);
+        int ind = 0;
+        for(T[] array : arrays) {
+            System.arraycopy(array, 0, out, ind, array.length);
+            ind += array.length;
+        }
+        return out;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T[] single(T element) {
+        T[] out = (T[]) Array.newInstance(element.getClass(), 1);
+        out[0] = element;
+        return out;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T[] array(T... elements) {
+        T[] out = (T[]) Array.newInstance(elements[0].getClass(), elements.length);
+        System.arraycopy(elements, 0, out, 0, elements.length);
+        return out;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T[] fillArray(T element, int len) {
+        T[] out = (T[]) Array.newInstance(element.getClass(), len);
+        for(int i = 0; i < out.length; i++) {
+            out[i] = element;
+        }
+        return out;
     }
 
     public void setBesselPrecision(double precision) {

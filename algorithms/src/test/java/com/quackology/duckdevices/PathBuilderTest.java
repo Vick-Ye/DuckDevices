@@ -1,0 +1,43 @@
+package com.quackology.duckdevices;
+
+import com.quackology.duckdevices.controllers.Path;
+import com.quackology.duckdevices.controllers.PathBuilder;
+import com.quackology.duckdevices.spaces.MatReal;
+import com.quackology.duckdevices.spaces.Vector;
+
+import org.knowm.xchart.QuickChart;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.XYChart;
+
+import java.util.ArrayList;
+
+public class PathBuilderTest {
+    public static void main(String[] args) {
+        ArrayList<Double> x = new ArrayList<>();
+        ArrayList<Double> y = new ArrayList<>();
+
+        Path path = new PathBuilder(Vector.build(0, 0, 0))
+                .addHermiteSpline(Vector.build(0.3, 1.5, Math.toRadians(40)))
+                .addHermiteSpline(Vector.build(0.4, 0.72), Vector.build(0.2 - 0.4, 0.6 - 0.72))
+                .addLine(Vector.build(0.2, 0.6))
+                .addCubicBezier(Vector.build(0.6, 0.2), Vector.build(0.3, 0.5), Vector.build(0.5, 0.1))
+                .addHermiteSpline(Vector.build(0.65, 1.4, Math.toRadians(90)))
+                .addBSpline(Vector.build(1, 1))
+                .addBSpline(Vector.build(2, 0.5))
+                .addLine(Vector.build(2, 0.8))
+                .addBSpline(Vector.build(2, 0))
+                .addBSpline(Vector.build(1, 0.5))
+                .addBSpline(Vector.build(0.6, 0.7))
+                .build();
+
+        for(int i = 0; i < 101; i++) {
+            MatReal pt = path.getPoint(i/100.0*11);
+            x.add(pt.get(0, 0));
+            y.add(pt.get(1, 0));
+        }
+
+        XYChart chart_plot = QuickChart.getChart("Path", "X", "Y", "Points", x, y);
+        new SwingWrapper<>(chart_plot).displayChart();
+
+    }
+}
