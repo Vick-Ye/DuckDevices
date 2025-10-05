@@ -93,4 +93,12 @@ public interface Mat<T extends Mat<T>> extends Linear {
      * @return a matrix that is the product of the matrix and the scalar
      */
     public T multiply(double scalar);
+
+    /**
+     * Hadamard Product (componentwise multiplication)
+     *
+     * @param matrix the matrix to multiply against the current matrix
+     * @return a matrix that is the hadamard product of the two matrices
+     */
+    public T hadamardProduct(T matrix);
 }; 

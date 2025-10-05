@@ -128,6 +128,9 @@ public class Expression extends Differentiable {
                     stack.remove(stack.size()-1);
                     stack.remove(stack.size()-1);
                     stack.add(a / b);
+                    if(b == 0) {
+                        return (this.apply(1e-9) + this.apply(-1e-9)) / 2;
+                    }
                     break;
                 case "+":
                     //a + b

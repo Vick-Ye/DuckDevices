@@ -44,7 +44,7 @@ public class MatReal implements Mat<MatReal> {
     /**
      * Constructor of a matrix based on the OjAlgo MatrixStore
      *
-     * @param matrix MatrixR064 from OjAlgo containing the values of the matrix
+     * @param matrix MatrixStore from OjAlgo containing the values of the matrix
      */
     private MatReal(MatrixStore<Double> matrix) {
         this.value = MATRIX_FACTORY.copy(matrix);
@@ -159,6 +159,21 @@ public class MatReal implements Mat<MatReal> {
     @Override
     public MatReal multiply(double scalar) {
 		return new MatReal(this.value.multiply(scalar));
+    }
+
+    @Override
+    public MatReal hadamardProduct(MatReal matrix) {
+        if (this.getRows() != matrix.getRows() || this.getCols() != matrix.getCols()) {
+            throw new IllegalArgumentException("Matrix must have the same dimensions");
+        }
+        double[][] out = this.get();
+        for(int i = 0; i < out.length; i++) {
+            for(int j = 0; j < out[i].length; j++) {
+                out[i][j] *= matrix.get(i, j);
+            }
+        }
+
+        return new MatReal(out);
     }
 
     /**

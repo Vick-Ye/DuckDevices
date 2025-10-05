@@ -559,6 +559,12 @@ public class Utils {
         return Math.abs(a-b) < TOLERANCE;
     }
 
+    /**
+     * combines arrays into singular array
+     *
+     * @param arrays arrays to be combined
+     * @return array formed from arrays
+     */
     @SuppressWarnings("unchecked")
     public static <T> T[] concat(T[]... arrays) {
         int length = 0;
@@ -572,6 +578,12 @@ public class Utils {
         return out;
     }
 
+    /**
+     * creates an array of a singular element
+     *
+     * @param element element to be formed into an array
+     * @return array of element
+     */
     @SuppressWarnings("unchecked")
     public static <T> T[] single(T element) {
         T[] out = (T[]) Array.newInstance(element.getClass(), 1);
@@ -579,6 +591,12 @@ public class Utils {
         return out;
     }
 
+    /**
+     * creates an array of the elements
+     *
+     * @param elements elements to be formed into an array
+     * @return array of elements
+     */
     @SuppressWarnings("unchecked")
     public static <T> T[] array(T... elements) {
         T[] out = (T[]) Array.newInstance(elements[0].getClass(), elements.length);
@@ -586,6 +604,13 @@ public class Utils {
         return out;
     }
 
+    /**
+     * creates an array full of the same element
+     *
+     * @param element element to fill the array
+     * @param len length of array
+     * @return array of length len filled with element
+     */
     @SuppressWarnings("unchecked")
     public static <T> T[] fillArray(T element, int len) {
         T[] out = (T[]) Array.newInstance(element.getClass(), len);

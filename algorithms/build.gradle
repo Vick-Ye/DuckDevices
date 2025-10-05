@@ -12,7 +12,7 @@ dependencies {
     api project(':core')
 
     // ojAlgo library for matrix operations
-    implementation 'org.ojalgo:ojalgo:54.0.0'
+    api 'org.ojalgo:ojalgo:54.0.0'
 
     // XChart library for plotting
     testImplementation 'org.knowm.xchart:xchart:3.8.0'
@@ -41,7 +41,14 @@ tasks.register('testMotionProfile', JavaExec) {
 
 tasks.register('testPathBuilder', JavaExec) {
     group = "Execution"
-    description = "Test trapozoidal path builder"
+    description = "Test path builder"
     classpath = sourceSets.test.runtimeClasspath
     mainClass = 'com.quackology.duckdevices.PathBuilderTest'
+}
+
+tasks.register('testGVF', JavaExec) {
+    group = "Execution"
+    description = "Test Guided Vector Field"
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.quackology.duckdevices.GVFTest'
 }

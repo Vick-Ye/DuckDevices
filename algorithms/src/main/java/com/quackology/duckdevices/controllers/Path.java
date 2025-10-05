@@ -5,19 +5,27 @@ import com.quackology.duckdevices.spaces.MatReal;
 import com.quackology.duckdevices.spaces.Vector;
 
 public class Path {
-    private Differentiable x;
-    private Differentiable y;
+    private Differentiable[] parametric;
 
-    public Path(Differentiable x, Differentiable y) {
-        this.x = x;
-        this.y = y;
+    public Path(Differentiable... parametric) {
+        this.parametric = parametric;
     }
 
     public MatReal getPoint(double t) {
-        return Vector.build(x.apply(t), y.apply(t));
+        double[] x = new double[parametric.length];
+        for(int i = 0; i < parametric.length; i++) {
+            x[i] = parametric[i].apply(t);
+        }
+
+        return Vector.build(x);
     }
 
     public MatReal getTangent(double t) {
-        return Vector.build(x.getDerivative(1).apply(t), y.getDerivative(1).apply(t));
+        double[] x = new double[parametric.length];
+        for(int i = 0; i < parametric.length; i++) {
+            x[i] = parametric[i].getDerivative(1).apply(t);
+        }
+
+        return Vector.build(x);
     }
 }

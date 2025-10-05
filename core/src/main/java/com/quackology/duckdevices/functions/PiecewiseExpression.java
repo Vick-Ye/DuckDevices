@@ -12,7 +12,7 @@ public class PiecewiseExpression extends Differentiable {
         this.expressions = expressions;
         this.bounds = bounds;
         derivatives[0] = this;
-        for(int i = 1; i < derivativeCount; i++) {
+        for(int i = 1; i < derivatives.length; i++) {
             Expression[] derivative = new Expression[expressions.length];
             for(int j = 0; j < derivative.length; j++) {
                 derivative[j] = (Expression) new Expression(((PiecewiseExpression) derivatives[i-1]).getExpressions()[j], 1).getDerivative(1);
@@ -27,7 +27,7 @@ public class PiecewiseExpression extends Differentiable {
     @Override
     public Double apply(Double x) {
         for(int i = 0; i < bounds.length; i++) {
-            if(x <= bounds[i]) {
+            if(x < bounds[i]) {
                 return expressions[i].apply(x);
             }
         }

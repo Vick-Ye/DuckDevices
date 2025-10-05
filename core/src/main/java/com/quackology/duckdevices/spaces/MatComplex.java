@@ -65,8 +65,8 @@ public class MatComplex implements Mat<MatComplex> {
     /**
      * Constructor of a matrix with real matrices representing real and imaginary parts based on OjAlgo's MatrixStore
      *
-     * @param real MatrixR064 from ojAlgo containing the real part of the matrix
-     * @param img MatrixR064 containing the imaginary part of the matrix
+     * @param real MatrixStore from ojAlgo containing the real part of the matrix
+     * @param img MatrixStore containing the imaginary part of the matrix
      */
     private MatComplex(MatrixStore<Double> real, MatrixStore<Double> img) {
         if (real.getRowDim() != img.getRowDim() || real.getColDim() != img.getColDim()) {
@@ -267,6 +267,21 @@ public class MatComplex implements Mat<MatComplex> {
     @Override
     public MatComplex multiply(double scalar) {
         return new MatComplex(this.value.multiply(scalar));
+    }
+
+    @Override
+    public MatComplex hadamardProduct(MatComplex matrix) {
+        if (this.getRows() != matrix.getRows() || this.getCols() != matrix.getCols()) {
+            throw new IllegalArgumentException("Matrix must have the same dimensions");
+        }
+        Complex[][] out = this.get();
+        for(int i = 0; i < out.length; i++) {
+            for(int j = 0; j < out[i].length; j++) {
+                out[i][j] = out[i][j].multiply(matrix.get(i, j));
+            }
+        }
+
+        return new MatComplex(out);
     }
 
     /**

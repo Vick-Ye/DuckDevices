@@ -16,6 +16,7 @@ public class PathBuilderTest {
         ArrayList<Double> x = new ArrayList<>();
         ArrayList<Double> y = new ArrayList<>();
 
+        /*
         Path path = new PathBuilder(Vector.build(0, 0, 0))
                 .addHermiteSpline(Vector.build(0.3, 1.5, Math.toRadians(40)))
                 .addHermiteSpline(Vector.build(0.4, 0.72), Vector.build(0.2 - 0.4, 0.6 - 0.72))
@@ -29,6 +30,17 @@ public class PathBuilderTest {
                 .addBSpline(Vector.build(1, 0.5))
                 .addBSpline(Vector.build(0.6, 0.7))
                 .build();
+        */
+        Path path = new PathBuilder(Vector.build(0, 0, 0))
+            .addHermiteSpline(Vector.build(2*0.5, 1*0.5, Math.toRadians(20)))
+            .addHermiteSpline(Vector.build(3*0.5, 3*0.5, Math.toRadians(80)))
+            .addHermiteSpline(Vector.build(1*0.5, 5*0.5, Math.toRadians(210)))
+            .addHermiteSpline(Vector.build(-1*0.5, 3*0.5, Math.toRadians(170)))
+            .addHermiteSpline(Vector.build(-2*0.5, 1*0.5, Math.toRadians(290)))
+            .addHermiteSpline(Vector.build(-3*0.5, 0*0.5, Math.toRadians(170)))
+            .addHermiteSpline(Vector.build(-1*0.5, -2*0.5, Math.toRadians(70)))
+            .addHermiteSpline(Vector.build(0, 0, Math.toRadians(0)))
+            .build();
 
         for(int i = 0; i < 101; i++) {
             MatReal pt = path.getPoint(i/100.0*11);
